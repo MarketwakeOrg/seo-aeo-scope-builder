@@ -130,60 +130,64 @@
   margin-bottom: 56px;
   font-weight: 300;
 }
-.def-groups {
+.def-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.def-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 26px 30px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px 40px;
+  gap: 10px;
 }
-@media (min-width: 760px) { .def-groups { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1100px) { .def-groups { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 820px) {
+  .def-item {
+    grid-template-columns: minmax(220px, 280px) 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+}
 
-.def-group h3 {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--yellow);
-  padding-bottom: 14px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-strong);
-  line-height: 1;
-}
-.def-group dl { display: block; }
-.def-group dt {
+.def-item dt {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 400;
-  color: var(--off-white);
-  margin-top: 18px;
-  margin-bottom: 4px;
+  color: var(--yellow);
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
-.def-group dt:first-of-type { margin-top: 0; }
-.def-group dd {
+.def-item dd {
   font-family: var(--sans);
   font-weight: 300;
-  font-size: 13px;
-  color: var(--muted-light);
-  line-height: 1.55;
+  font-size: 14px;
+  color: var(--off-white);
+  line-height: 1.65;
   margin-left: 0;
 }
-.def-group dd .tag {
+.def-item dt .tag {
   display: inline-block;
-  background: rgba(238,255,37,0.1);
-  border: 1px solid rgba(238,255,37,0.35);
+  background: rgba(238,255,37,0.12);
+  border: 1px solid rgba(238,255,37,0.5);
   color: var(--yellow);
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: var(--radius-pill);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-left: 6px;
-  vertical-align: 2px;
+  margin-top: 10px;
+  margin-left: 0;
+  vertical-align: baseline;
+  white-space: nowrap;
 }
 @media print {
   .definitions { display: none !important; }
@@ -1359,111 +1363,119 @@ strong, b { font-weight: 500; }
     <h2>What every line on the scope <em>actually means.</em></h2>
     <p class="lede">A plain-language reference for every deliverable in this builder. Use it to walk a client through the scope without ambiguity.</p>
 
-    <div class="def-groups">
+    <dl class="def-list">
 
-      <!-- FOUNDATION -->
-      <div class="def-group">
-        <h3>Foundation + Analysis</h3>
-        <dl>
-          <dt>SEO audit</dt>
-          <dd>One-time baseline assessment of the site's organic health: indexation, site structure, internal linking, content gaps, and priority fix list. Delivered in the first 30 days of the engagement.</dd>
-
-          <dt>Technical SEO analysis + Lumar dashboard<span class="tag">Included in all packages</span></dt>
-          <dd>Ongoing technical monitoring via Lumar (formerly DeepCrawl). Client gets read access to the dashboard for real-time visibility into crawl errors, broken links, site speed, schema issues, and indexation status.</dd>
-
-          <dt>Keyword hitlist</dt>
-          <dd>A prioritized list of target keywords the client should rank for, scored by search volume, ranking difficulty, and commercial intent. 100, 150, or 200 keywords depending on package.</dd>
-
-          <dt>Custom GA4 events</dt>
-          <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. 10 events for Current, 20 for High Tide and Rip Tide.</dd>
-
-          <dt>3-month SEO + AEO content strategy</dt>
-          <dd>A rolling quarterly plan that maps content production (briefs, authored blogs, refreshes) against the keyword hitlist and AEO prompt list. Updated every quarter.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>3-month SEO + AEO content strategy</dt>
+        <dd>A rolling quarterly plan that maps content production (briefs, authored blogs, refreshes) against the keyword hitlist and AEO prompt list. Updated every quarter. Included in every package.</dd>
       </div>
 
-      <!-- CONTENT -->
-      <div class="def-group">
-        <h3>Content</h3>
-        <dl>
-          <dt>Blog briefs</dt>
-          <dd>Every brief is optimized for both SEO and AEO: structured to rank in traditional search and to be cited by AI assistants (Claude, ChatGPT, Gemini, Perplexity). Each brief includes target keyword, search intent, AEO prompt alignment, outline, internal links, and word count. Every 5 briefs follows a 4 standard (800 to 2k words) + 1 long-form (2 to 4k words) cadence.</dd>
-
-          <dt>Authored blogs (Marketwake writes)<span class="tag">Rip Tide only</span></dt>
-          <dd>Fully researched, written, and edited blog posts delivered ready to publish. Same 4 standard + 1 long-form cadence per 5 posts. Authoring is never included in Current or High Tide - it's always an upsell.</dd>
-
-          <dt>Blog upload + publish</dt>
-          <dd>Marketwake handles the full publish workflow in the client's CMS: formatting, metadata, internal linking, image optimization, and scheduling. Client only needs to approve.</dd>
-
-          <dt>Repurposed content</dt>
-          <dd>Refreshing an existing post counts as 0.5 of a content credit. Used to stretch output by mixing new and repurposed work when the strategy calls for it.</dd>
-
-          <dt>Quarterly content strategy refresh</dt>
-          <dd>End-of-quarter review of what ranked, what didn't, and where to pivot the next 3 months of content production. Included in High Tide and Rip Tide.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>AEO prompt list</dt>
+        <dd>A curated list of the prompts the client's target buyers are actually asking Claude, ChatGPT, Gemini, and Perplexity. The foundation for all AEO optimization work.</dd>
       </div>
 
-      <!-- ON-PAGE + TECHNICAL -->
-      <div class="def-group">
-        <h3>On-Page + Technical</h3>
-        <dl>
-          <dt>On-page / product-page optimizations</dt>
-          <dd>Monthly updates to existing pages: copy, headings, meta tags, schema, internal linking, and structure. For ecommerce brands this includes product detail pages. Design and dev time is billed separately or through the Dev Hours add-on.</dd>
-
-          <dt>Dev hours · Technical SEO fixes</dt>
-          <dd>A dedicated monthly bucket of developer time used to implement the technical fixes surfaced by the Lumar analysis: schema markup, redirects, canonical tags, site speed, crawl errors, and indexation issues. Sold in 10, 20, or 30 hour buckets with a volume discount.</dd>
-
-          <dt>AEO prompt list</dt>
-          <dd>A curated list of the prompts the client's target buyers are actually asking Claude, ChatGPT, Gemini, and Perplexity. The foundation for all AEO optimization work.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>AEO Tier 1 · Signal<span class="tag">Free for all clients</span></dt>
+        <dd>GA4 organic traffic, event completion tracking, and LLM source traffic (visits referred by AI assistants). No Scrunch tooling. Baseline AEO visibility included with every SEO engagement at no charge.</dd>
       </div>
 
-      <!-- AEO REPORTING -->
-      <div class="def-group">
-        <h3>AEO Reporting</h3>
-        <dl>
-          <dt>Tier 1 · Signal<span class="tag">Free for all clients</span></dt>
-          <dd>GA4 organic traffic, event completion tracking, and LLM source traffic (visits referred by AI assistants). No Scrunch tooling. Baseline AEO visibility included with every SEO engagement at no charge.</dd>
-
-          <dt>Tier 2 · Pulse</dt>
-          <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. $500 / mo.</dd>
-
-          <dt>Tier 3 · Current</dt>
-          <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. $750 / mo.</dd>
-
-          <dt>Tier 4 · Rip Tide</dt>
-          <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,000 / mo.</dd>
-
-          <dt>Monthly Looker Studio dashboard</dt>
-          <dd>A live Looker Studio dashboard with organic traffic, keyword rankings, conversion tracking, and AEO signals. Delivered with a written executive summary each month.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>AEO Tier 2 · Pulse</dt>
+        <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. $500 / mo.</dd>
       </div>
 
-      <!-- LOCAL + LISTINGS -->
-      <div class="def-group">
-        <h3>Local + Listings</h3>
-        <dl>
-          <dt>Yext + review management</dt>
-          <dd>Marketwake manages the client's Yext listings across 200+ directories (Google, Bing, Apple Maps, Yelp, industry verticals) and handles review monitoring and response at every location. Priced per location with volume breaks starting at $185 / location, dropping $5 every 10 locations, floor of $100 / location, max 200 locations.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>AEO Tier 3 · Current</dt>
+        <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. $750 / mo.</dd>
       </div>
 
-      <!-- STRATEGY + REVIEWS -->
-      <div class="def-group">
-        <h3>Strategic Reviews</h3>
-        <dl>
-          <dt>Quarterly business review (QBR)</dt>
-          <dd>A live quarterly deep-dive presentation covering SEO + AEO performance, insights, recommendations, and findings. Delivered by the Marketwake strategy team. $2,500 per quarter, or included with Rip Tide.</dd>
-
-          <dt>Dedicated Marketwake strategist<span class="tag">Rip Tide only</span></dt>
-          <dd>A named senior strategist as the client's primary point of contact, leading quarterly planning and mid-cycle strategic shifts. Not available on Current or High Tide.</dd>
-
-          <dt>Monthly exec summary</dt>
-          <dd>A 1-page written summary delivered alongside the dashboard each month: what moved, why it moved, and what Marketwake is doing about it next month.</dd>
-        </dl>
+      <div class="def-item">
+        <dt>AEO Tier 4 · Rip Tide</dt>
+        <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,000 / mo.</dd>
       </div>
 
-    </div>
+      <div class="def-item">
+        <dt>Authored blogs (Marketwake writes)<span class="tag">Rip Tide only</span></dt>
+        <dd>Fully researched, written, and edited blog posts delivered ready to publish. Same 4 standard + 1 long-form cadence per 5 posts. Authoring is never included in Current or High Tide - it's always an upsell.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Blog briefs</dt>
+        <dd>Every brief is optimized for both SEO and AEO: structured to rank in traditional search and to be cited by AI assistants (Claude, ChatGPT, Gemini, Perplexity). Each brief includes target keyword, search intent, AEO prompt alignment, outline, internal links, and word count. Every 5 briefs follows a 4 standard (800 to 2k words) + 1 long-form (2 to 4k words) cadence.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Blog upload + publish</dt>
+        <dd>Marketwake handles the full publish workflow in the client's CMS: formatting, metadata, internal linking, image optimization, and scheduling. Client only needs to approve.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Custom GA4 events</dt>
+        <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. 10 events for Current, 20 for High Tide and Rip Tide.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Dedicated Marketwake strategist<span class="tag">Rip Tide only</span></dt>
+        <dd>A named senior strategist as the client's primary point of contact, leading quarterly planning and mid-cycle strategic shifts. Not available on Current or High Tide.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Dev hours · Technical SEO fixes</dt>
+        <dd>A dedicated monthly bucket of developer time used to implement the technical fixes surfaced by the Lumar analysis: schema markup, redirects, canonical tags, site speed, crawl errors, and indexation issues. Sold in 10, 20, or 30 hour buckets with a volume discount.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Keyword hitlist</dt>
+        <dd>A prioritized list of target keywords the client should rank for, scored by search volume, ranking difficulty, and commercial intent. 100, 150, or 200 keywords depending on package.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Monthly exec summary</dt>
+        <dd>A 1-page written summary delivered alongside the dashboard each month: what moved, why it moved, and what Marketwake is doing about it next month.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Monthly Looker Studio dashboard</dt>
+        <dd>A live Looker Studio dashboard with organic traffic, keyword rankings, conversion tracking, and AEO signals. Delivered with a written executive summary each month.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>On-page / product-page optimizations</dt>
+        <dd>Monthly updates to existing pages: copy, headings, meta tags, schema, internal linking, and structure. For ecommerce brands this includes product detail pages. Design and dev time is billed separately or through the Dev Hours add-on.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Quarterly business review (QBR)</dt>
+        <dd>A live quarterly deep-dive presentation covering SEO + AEO performance, insights, recommendations, and findings. Delivered by the Marketwake strategy team. $2,500 per quarter, or included with Rip Tide.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Quarterly content strategy refresh</dt>
+        <dd>End-of-quarter review of what ranked, what didn't, and where to pivot the next 3 months of content production. Included in High Tide and Rip Tide.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Repurposed content</dt>
+        <dd>Refreshing an existing post counts as 0.5 of a content credit. Used to stretch output by mixing new and repurposed work when the strategy calls for it.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>SEO audit</dt>
+        <dd>One-time baseline assessment of the site's organic health: indexation, site structure, internal linking, content gaps, and priority fix list. Delivered in the first 30 days of the engagement.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Technical SEO analysis + Lumar dashboard<span class="tag">Included in all packages</span></dt>
+        <dd>Ongoing technical monitoring via Lumar (formerly DeepCrawl). Client gets read access to the dashboard for real-time visibility into crawl errors, broken links, site speed, schema issues, and indexation status.</dd>
+      </div>
+
+      <div class="def-item">
+        <dt>Yext + review management</dt>
+        <dd>Marketwake manages the client's Yext listings across 200+ directories (Google, Bing, Apple Maps, Yelp, industry verticals) and handles review monitoring and response at every location. Priced per location with volume breaks starting at $185 / location, dropping $5 every 10 locations, floor of $100 / location, max 200 locations.</dd>
+      </div>
+
+    </dl>
   </div>
 </section>
 
