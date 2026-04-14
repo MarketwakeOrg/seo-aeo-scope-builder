@@ -1673,9 +1673,9 @@ function effectiveTotalFor(pkgKey) {
 
   // Briefs: authored blogs always cover briefs 1:1
   const authoredCovered = state.authored.on ? state.authored.value : 0;
-  const briefsEffectiveInc = pkg.includes.briefs + authoredCovered;
+  const briefsFreeCoverage = pkg.includes.briefs + authoredCovered;
   if (state.briefs.on) {
-    const extra = Math.max(0, state.briefs.value - briefsEffectiveInc);
+    const extra = Math.max(0, state.briefs.value - briefsFreeCoverage);
     if (extra > 0) {
       const step = Math.max(5, Math.floor(state.briefs.value / 5) * 5);
       total += extra * (PRICE_BREAKS.briefs[step] || PRICE_BREAKS.briefs[5]);
@@ -1807,37 +1807,44 @@ function addonCost(kind, total, included) {
 function renderAddons() {
   const inc = pkgIncludes();
 
-  // Every authored blog always ships with its own brief, so authored count
-  // reduces what we charge for on the briefs slider.
+  // Briefs-authored link:
+  // 1:1 matching - briefs slider is pinned to at least the authored count.
+  // For pricing: package baseline AND authored both contribute to "free" brief
+  // coverage (additive), so charged briefs = max(0, briefs - pkg - authored).
   const authoredCovered = state.authored.on ? state.authored.value : 0;
-  const briefsEffectiveInc = inc.briefs + authoredCovered;
+  const briefsFreeCoverage = inc.briefs + authoredCovered;
 
   // ---------- BLOG BRIEFS ----------
-  // Briefs follow the same cadence as authored blogs: every 5 briefs =
-  // 4 standard (800 to 2k words) + 1 long-form (2 to 4k words).
   const briefsEl = $('.addon[data-addon="briefs"]');
   briefsEl.classList.toggle('active', state.briefs.on);
   briefsEl.classList.toggle('open', state.briefs.on);
   $('[data-toggle="briefs"]').classList.toggle('on', state.briefs.on);
   {
     const slider = $('[data-slider="briefs"]');
-    const floor = Math.max(5, briefsEffectiveInc || 5);
+    // 1:1 floor: briefs must be at least as many as package baseline OR authored
+    const floor = Math.max(5, inc.briefs || 0, authoredCovered);
     slider.min = floor;
     if (state.briefs.value < floor) state.briefs.value = floor;
     slider.value = state.briefs.value;
     $('[data-sliderval="briefs"]').textContent = state.briefs.value;
 
-    const r = addonCost('briefs', state.briefs.value, briefsEffectiveInc);
+    const r = addonCost('briefs', state.briefs.value, briefsFreeCoverage);
     const b = authoredBreakdown(state.briefs.value);
     const breakdown = `${b.standard} standard (800 to 2k words) + ${b.longform} long-form (2 to 4k words)`;
-    const incNote = authoredCovered > 0
-      ? `${inc.briefs} package + ${authoredCovered} from authored blogs`
-      : `${inc.briefs} included in package`;
+
     let output;
-    if (briefsEffectiveInc > 0 && r.charged === 0) {
-      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${incNote} · <strong style="color:var(--yellow)">$0 upsell</strong>`;
-    } else if (briefsEffectiveInc > 0) {
-      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${incNote} + ${r.charged} at ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    if (authoredCovered > 0 && state.briefs.value === authoredCovered && r.charged === 0) {
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · <em>matched 1:1 with authored blogs</em> · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (briefsFreeCoverage > 0 && r.charged === 0) {
+      const parts = [];
+      if (inc.briefs > 0) parts.push(`${inc.briefs} from package`);
+      if (authoredCovered > 0) parts.push(`${authoredCovered} from authored`);
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${parts.join(' + ')} · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (briefsFreeCoverage > 0) {
+      const parts = [];
+      if (inc.briefs > 0) parts.push(`${inc.briefs} from package`);
+      if (authoredCovered > 0) parts.push(`${authoredCovered} from authored`);
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${parts.join(' + ')} + ${r.charged} at ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
     } else {
       output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
     }
@@ -2055,8 +2062,8 @@ function buildLineItems() {
 
   if (state.briefs.on) {
     const authoredCovered = state.authored.on ? state.authored.value : 0;
-    const briefsEffectiveInc = inc.briefs + authoredCovered;
-    const r = addonCost('briefs', state.briefs.value, briefsEffectiveInc);
+    const briefsFreeCoverage = inc.briefs + authoredCovered;
+    const r = addonCost('briefs', state.briefs.value, briefsFreeCoverage);
     if (r.charged > 0) {
       const incNote = authoredCovered > 0
         ? `${inc.briefs} package + ${authoredCovered} from authored`
