@@ -1082,7 +1082,7 @@ strong, b { font-weight: 500; }
             <li>10 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
-            <li><strong>AEO Tier 2 · Pulse</strong> reporting bundled (100 prompts)</li>
+            <li><strong>AEO Tier 2 · Pulse</strong> reporting bundled (100 prompts tracked)</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
           <div class="price">$13,500<span>/mo</span></div>
@@ -1104,7 +1104,7 @@ strong, b { font-weight: 500; }
             <li>15 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
-            <li><strong>AEO Tier 3 · Current</strong> reporting bundled (200 prompts)</li>
+            <li><strong>AEO Tier 3 · Sonar</strong> reporting bundled (200 prompts tracked)</li>
             <li>QBR delivered quarterly</li>
             <li>Dedicated Marketwake strategist</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
@@ -1308,8 +1308,8 @@ strong, b { font-weight: 500; }
             <div class="tier-pills" id="tierPills">
               <button class="tier-pill active" data-tier="1">Tier 1 · Signal</button>
               <button class="tier-pill" data-tier="2">Tier 2 · Pulse</button>
-              <button class="tier-pill" data-tier="3">Tier 3 · Current</button>
-              <button class="tier-pill" data-tier="4">Tier 4 · Rip Tide</button>
+              <button class="tier-pill" data-tier="3">Tier 3 · Sonar</button>
+              <button class="tier-pill" data-tier="4">Tier 4 · Horizon</button>
             </div>
             <div class="tier-desc" id="tierDesc">
               <strong>Tier 1 · Signal</strong>
@@ -1441,12 +1441,12 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>AEO Tier 3 · Current<span class="tag">Bundled with Rip Tide</span></dt>
+        <dt>AEO Tier 3 · Sonar<span class="tag">Bundled with Rip Tide</span></dt>
         <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. Bundled into the Rip Tide package at no extra cost; $1,100 / mo list price as an upgrade.</dd>
       </div>
 
       <div class="def-item">
-        <dt>AEO Tier 4 · Rip Tide</dt>
+        <dt>AEO Tier 4 · Horizon</dt>
         <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,600 / mo list price. Available as an upgrade on any package; the cost billed is the delta above what the package already bundles.</dd>
       </div>
 
@@ -1578,13 +1578,13 @@ const PRICE_BREAKS = {
 // Higher tiers are upcharges. If the selected package already bundles a
 // higher tier, the delta is $0 (baked into the package price).
 const TIERS = {
-  1: { name: 'Tier 1 · Signal',   price: 0,    prompts: 0,
+  1: { name: 'Tier 1 · Signal',  price: 0,    prompts: 0,
        baseDesc: 'GA4 organic traffic + event completion + LLM source traffic. No Scrunch. Included with every SEO client.' },
-  2: { name: 'Tier 2 · Pulse',    price: 750,  prompts: 100,
+  2: { name: 'Tier 2 · Pulse',   price: 750,  prompts: 100,
        baseDesc: 'Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, Perplexity. Monthly AEO findings report included.' },
-  3: { name: 'Tier 3 · Current',  price: 1100, prompts: 200,
+  3: { name: 'Tier 3 · Sonar',   price: 1100, prompts: 200,
        baseDesc: 'Tier 2 + 200 prompts. Share of voice, trend tracking, gap analysis. Monthly AEO findings report included.' },
-  4: { name: 'Tier 4 · Rip Tide', price: 1600, prompts: 300,
+  4: { name: 'Tier 4 · Horizon', price: 1600, prompts: 300,
        baseDesc: 'Tier 3 + 300 prompts. Citation source map, multi-model analysis, QBR-ready data. Monthly AEO findings report included.' },
 };
 
