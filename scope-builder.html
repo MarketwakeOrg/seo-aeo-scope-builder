@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marketwake / SEO + AEO Scope Builder</title>
+
+<!-- Google Fonts fallback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =================================================================
+   FONT FACES - Marketwake brand fonts from local /Downloads
+   Per brand guide: Victor Serif LIGHT for headlines,
+   Inter Tight LIGHT for body, Space Grotesk MEDIUM for preheaders.
+================================================================= */
+@font-face {
+  font-family: 'Victor Serif';
+  src: url('assets/fonts/victor/VictorSerif-30Light.woff2') format('woff2'),
+       url('assets/fonts/victor/VictorSerif-30Light.woff') format('woff');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Victor Serif';
+  src: url('assets/fonts/victor/VictorSerif-35LightItalic.woff2') format('woff2'),
+       url('assets/fonts/victor/VictorSerif-35LightItalic.woff') format('woff');
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Victor Serif';
+  src: url('assets/fonts/victor/VictorSerif-40Regular.woff2') format('woff2'),
+       url('assets/fonts/victor/VictorSerif-40Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Victor Serif';
+  src: url('assets/fonts/victor/VictorSerif-60Semibold.woff2') format('woff2'),
+       url('assets/fonts/victor/VictorSerif-60Semibold.woff') format('woff');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('assets/fonts/inter/InterTight-Light.ttf') format('truetype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('assets/fonts/inter/InterTight-LightItalic.ttf') format('truetype');
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('assets/fonts/inter/InterTight-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter Tight';
+  src: url('assets/fonts/inter/InterTight-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('assets/fonts/space/SpaceGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('assets/fonts/space/SpaceGrotesk-SemiBold.ttf') format('truetype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* =================================================================
+   BRAND TOKENS - Marketwake Full Brand Guide (Dec 2024)
+================================================================= */
+:root {
+  --bg:          #0C0C0C;              /* Brand Black */
+  --surface:     #141414;
+  --surface-el:  #1c1c1c;
+  --off-white:   #F0F1F2;              /* Primary text */
+  --white:       #F9F9F9;
+  --yellow:      #EEFF25;              /* Primary accent */
+  --yellow-ink:  #0C0C0C;
+  --yellow-dim:  rgba(238,255,37,0.08);
+  --green:       #CEFF58;              /* Neon Green secondary */
+  --muted-green: #B4C6BB;
+  --blue:        #0038FF;
+  --orange:      #FF5E30;              /* Warning */
+  --muted:       #888;
+  --muted-light: #b4b4b4;
+  --border:      rgba(240,241,242,0.08);
+  --border-strong: rgba(240,241,242,0.16);
+
+  --serif:  'Victor Serif', Georgia, serif;
+  --sans:   'Inter Tight', system-ui, -apple-system, sans-serif;
+  --mono:   'Space Grotesk', system-ui, sans-serif;
+
+  --radius-sm: 8px;
+  --radius:    16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  /* Brand guide form field radius */
+  --radius-field: 35px;
+}
+
+/* =================================================================
+   BASE
+================================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  font-weight: 300; /* Inter Tight Light per brand guide */
+  background: var(--bg);
+  color: var(--off-white);
+  line-height: 1.55; /* ~110% leading per guide */
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  font-weight: 300; /* Victor Serif Light per brand guide */
+  letter-spacing: -0.015em;
+  line-height: 1; /* 100% leading per guide */
+}
+strong, b { font-weight: 500; }
+
+/* Preheader - Space Grotesk Medium, ALL CAPS, 10% tracking per guide */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--yellow);
+  display: inline-block;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+.eyebrow.muted { color: var(--muted-light); }
+.eyebrow .sep { color: var(--muted); margin: 0 8px; }
+
+/* =================================================================
+   HEADER
+================================================================= */
+.site-header {
+  padding: 22px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(12,12,12,0.82);
+  border-bottom: 1px solid var(--border);
+}
+.site-header .logo img { height: 28px; display: block; }
+.site-header .nav-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-light);
+}
+.site-header .nav-label .accent { color: var(--yellow); }
+
+/* =================================================================
+   HERO
+================================================================= */
+.hero {
+  position: relative;
+  padding: 96px 40px 72px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+.hero h1 {
+  font-size: clamp(44px, 6vw, 84px);
+  line-height: 0.98;
+  max-width: 820px;
+  margin-bottom: 22px;
+  font-weight: 300;
+}
+.hero h1 .em {
+  color: var(--yellow);
+  font-style: italic;
+  font-weight: 300;
+}
+.hero p {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 17px;
+  color: var(--muted-light);
+  max-width: 580px;
+  line-height: 1.55;
+}
+.hero-tagline {
+  margin-top: 36px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hero-tagline .mid { color: var(--yellow); }
+
+/* Wave topography background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.28;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='500' viewBox='0 0 1600 500'><g fill='none' stroke='%23EEFF25' stroke-width='0.9'><path d='M0 100 Q200 40 400 100 T800 100 T1200 100 T1600 100'/><path d='M0 140 Q200 80 400 140 T800 140 T1200 140 T1600 140'/><path d='M0 180 Q200 120 400 180 T800 180 T1200 180 T1600 180'/><path d='M0 220 Q200 160 400 220 T800 220 T1200 220 T1600 220'/><path d='M0 260 Q200 200 400 260 T800 260 T1200 260 T1600 260'/><path d='M0 300 Q200 240 400 300 T800 300 T1200 300 T1600 300'/><path d='M0 340 Q200 280 400 340 T800 340 T1200 340 T1600 340'/><path d='M0 380 Q200 320 400 380 T800 380 T1200 380 T1600 380'/></g></svg>");
+  background-size: cover;
+  background-position: center;
+}
+.hero-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, var(--bg));
+}
+
+/* =================================================================
+   MAIN LAYOUT
+================================================================= */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 64px 40px 96px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+@media (min-width: 1024px) {
+  .main { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 60px; }
+}
+
+.section { margin-bottom: 56px; }
+.section-title {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 0.98;
+  margin-bottom: 36px;
+  max-width: 680px;
+  font-weight: 300;
+}
+.section-title em { color: var(--yellow); font-style: italic; }
+
+/* =================================================================
+   PACKAGE CARDS
+================================================================= */
+.package-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 640px) { .package-grid { grid-template-columns: 1fr 1fr; } }
+
+.pkg-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px 96px;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+}
+.pkg-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.pkg-card.active {
+  border-color: var(--yellow);
+  background: linear-gradient(180deg, rgba(238,255,37,0.05), rgba(238,255,37,0.01));
+  box-shadow: 0 0 0 1px var(--yellow), 0 20px 60px -30px rgba(238,255,37,0.4);
+}
+.pkg-card .icon-wrap {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.pkg-card .icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
+.pkg-card h3 {
+  font-size: 34px;
+  margin-bottom: 8px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.pkg-card .tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  color: var(--muted-light);
+  margin-bottom: 22px;
+}
+.pkg-card ul {
+  list-style: none;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--off-white);
+  flex-grow: 1;
+  font-weight: 300;
+}
+.pkg-card ul li {
+  padding: 4px 0 4px 18px;
+  position: relative;
+}
+.pkg-card ul li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 11px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--yellow);
+}
+.pkg-card ul li.pill-row {
+  padding-left: 0;
+  margin-bottom: 8px;
+}
+.pkg-card ul li.pill-row::before { display: none; }
+.pkg-card .kw-pill {
+  display: inline-block;
+  background: rgba(238,255,37,0.12);
+  border: 1px solid rgba(238,255,37,0.5);
+  color: var(--yellow);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.pkg-card .price {
+  position: absolute;
+  right: 26px; bottom: 24px;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 28px;
+  color: var(--off-white);
+  line-height: 1;
+}
+.pkg-card .price span {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-weight: 300;
+  margin-left: 2px;
+}
+.badge-popular {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: var(--yellow);
+  color: var(--yellow-ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* =================================================================
+   WAVE DIVIDER + INFO STRIP
+================================================================= */
+.wave-divider {
+  margin: 60px 0 32px;
+  display: block;
+  width: 100%;
+  height: 38px;
+  opacity: 0.45;
+}
+.info-strip {
+  background: var(--yellow-dim);
+  border: 1px solid rgba(238,255,37,0.35);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  font-size: 13.5px;
+  color: var(--off-white);
+  margin-bottom: 48px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-weight: 300;
+}
+.info-strip::before {
+  content: "~";
+  font-family: var(--serif);
+  color: var(--yellow);
+  font-size: 24px;
+  font-style: italic;
+  line-height: 1;
+  margin-top: -3px;
+}
+
+/* =================================================================
+   ADD-ONS
+================================================================= */
+.addons { display: flex; flex-direction: column; gap: 16px; }
+.addon {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  transition: border-color .2s ease, background .2s ease;
+}
+.addon.active {
+  border-left-color: var(--yellow);
+  background: var(--surface-el);
+}
+.addon-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+.addon-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+.addon-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition: background .2s ease, box-shadow .2s ease;
+  flex-shrink: 0;
+}
+.addon.active .addon-dot {
+  background: var(--yellow);
+  box-shadow: 0 0 0 5px rgba(238,255,37,0.12);
+}
+.addon-label {
+  font-weight: 400;
+  font-family: var(--sans);
+  font-size: 15.5px;
+  color: var(--off-white);
+}
+.addon-desc {
+  font-size: 13px;
+  color: var(--muted-light);
+  margin-top: 4px;
+  line-height: 1.5;
+  font-weight: 300;
+}
+.addon-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.addon-price {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 17px;
+  color: var(--muted-light);
+  white-space: nowrap;
+}
+.addon.active .addon-price { color: var(--off-white); }
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 44px; height: 24px;
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background .2s ease;
+  flex-shrink: 0;
+}
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  background: var(--off-white);
+  border-radius: 50%;
+  transition: transform .2s ease;
+}
+.toggle.on { background: var(--yellow); }
+.toggle.on::after { transform: translateX(20px); background: var(--yellow-ink); }
+
+/* Expanded panel */
+.addon-body {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: none;
+}
+.addon.open .addon-body { display: block; }
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+.slider-row input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
+  outline: none;
+}
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px; height: 22px;
+  background: var(--yellow);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--yellow);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.slider-row input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px;
+  background: var(--yellow);
+  border: 3px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--yellow);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.slider-val {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 26px;
+  min-width: 60px;
+  text-align: right;
+  color: var(--off-white);
+  line-height: 1;
+}
+.slider-output {
+  font-size: 13px;
+  color: var(--muted-light);
+  font-variant-numeric: tabular-nums;
+  font-weight: 300;
+}
+.slider-output strong { color: var(--off-white); font-weight: 500; }
+
+.callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(238,255,37,0.1);
+  border: 1px solid rgba(238,255,37,0.4);
+  color: var(--yellow);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  margin-top: 14px;
+  font-weight: 500;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.callout::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+}
+
+.sub-toggle {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13.5px;
+  color: var(--muted-light);
+  font-weight: 300;
+}
+.sub-toggle .toggle { width: 34px; height: 20px; }
+.sub-toggle .toggle::after { width: 14px; height: 14px; }
+.sub-toggle .toggle.on::after { transform: translateX(14px); }
+.repurpose-line { margin-top: 12px; font-size: 13px; color: var(--muted-light); display: none; font-weight: 300; }
+.addon.open .repurpose-line.show { display: block; }
+
+/* Tier pills */
+.tier-pills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+@media (min-width: 640px) { .tier-pills { grid-template-columns: repeat(4, 1fr); } }
+.tier-pill {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--muted-light);
+  padding: 12px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tier-pill:hover { color: var(--off-white); border-color: var(--border-strong); }
+.tier-pill.active {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--yellow-ink);
+}
+.tier-desc {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--off-white);
+  font-weight: 300;
+}
+.tier-desc strong {
+  color: var(--off-white);
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 6px;
+}
+.tier-desc .note {
+  display: block;
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: var(--muted);
+  font-style: italic;
+  font-family: var(--serif);
+  font-weight: 300;
+}
+
+/* Yext location input */
+.loc-row {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  margin-bottom: 12px;
+}
+.loc-input-wrap {
+  flex: 1;
+  position: relative;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-field);
+  padding: 6px 6px 6px 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.loc-input-wrap:focus-within { border-color: var(--yellow); }
+.loc-input-wrap label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.loc-input-wrap input[type="number"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--off-white);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 22px;
+  padding: 10px 14px;
+  text-align: right;
+  -moz-appearance: textfield;
+  width: 100%;
+}
+.loc-input-wrap input[type="number"]::-webkit-outer-spin-button,
+.loc-input-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.loc-steppers { display: flex; flex-direction: column; gap: 2px; }
+.loc-stepper {
+  background: var(--border-strong);
+  border: none;
+  color: var(--off-white);
+  width: 26px; height: 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s ease;
+}
+.loc-stepper:hover { background: var(--yellow); color: var(--yellow-ink); }
+
+/* =================================================================
+   SUMMARY PANEL
+================================================================= */
+.summary-wrap { position: relative; }
+@media (min-width: 1024px) {
+  .summary-wrap {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+}
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.summary .eyebrow {
+  display: block;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--yellow);
+  width: fit-content;
+  margin-bottom: 24px;
+}
+.summary-pkg h3 {
+  font-size: 32px;
+  margin-bottom: 6px;
+  font-weight: 300;
+}
+.summary-pkg .pkg-tagline {
+  font-style: italic;
+  font-family: var(--serif);
+  font-weight: 300;
+  color: var(--muted-light);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+.summary-list { list-style: none; margin: 0 0 20px; }
+.summary-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 13.5px;
+  font-weight: 300;
+}
+.summary-list li:last-child { border-bottom: none; }
+.summary-list .item-label { color: var(--off-white); flex: 1; }
+.summary-list .item-sub {
+  font-size: 11.5px;
+  color: var(--muted);
+  display: block;
+  margin-top: 3px;
+  font-family: var(--serif);
+  font-style: italic;
+}
+.summary-list .item-price {
+  color: var(--off-white);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--serif);
+  font-weight: 400;
+  white-space: nowrap;
+}
+.summary-empty {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+  padding: 8px 0;
+  font-family: var(--serif);
+  font-weight: 300;
+}
+
+.summary-totals { margin: 24px 0 20px; padding-top: 22px; border-top: 1px solid var(--border); }
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.summary-total-row .tot-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+.summary-total-row .tot-val {
+  font-family: var(--serif);
+  font-variant-numeric: tabular-nums;
+  font-weight: 300;
+}
+.summary-total-row.primary .tot-label { color: var(--yellow); font-size: 11px; }
+.summary-total-row.primary .tot-val {
+  font-size: 46px;
+  color: var(--yellow);
+  line-height: 1;
+  transition: transform .25s ease;
+}
+.summary-total-row.primary .tot-val.bump { transform: scale(1.04); }
+.summary-total-row.secondary .tot-val { font-size: 20px; color: var(--off-white); }
+
+/* CTA button - Marketwake brand guide styling */
+.cta {
+  display: block;
+  width: 100%;
+  background: var(--yellow);
+  color: var(--yellow-ink);
+  border: none;
+  border-radius: var(--radius-field);
+  height: 56px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+  margin-top: 18px;
+}
+.cta:hover { background: var(--off-white); }
+.cta:active { transform: scale(0.99); }
+.cta-mail {
+  display: block;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: var(--mono);
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: 14px;
+  transition: color .15s ease;
+}
+.cta-mail:hover { color: var(--yellow); }
+.summary-disclaimer {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: 18px;
+  text-align: center;
+  font-weight: 300;
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* =================================================================
+   FOOTER
+================================================================= */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 36px 40px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.site-footer img { height: 18px; opacity: 0.55; }
+.site-footer .dot { color: var(--border-strong); }
+.site-footer .tagline { color: var(--yellow); }
+
+/* =================================================================
+   PRINT
+================================================================= */
+@media print {
+  body { background: #fff; color: #0C0C0C; font-size: 11pt; }
+  .site-header, .hero, .left-col, .site-footer, .cta, .cta-mail { display: none !important; }
+  .main { display: block; padding: 24px; max-width: 100%; }
+  .summary-wrap { position: static; max-height: none; overflow: visible; }
+  .summary {
+    background: #fff; border: 1px solid #ccc; color: #0C0C0C;
+    padding: 24px; box-shadow: none; border-radius: 0;
+  }
+  .summary .eyebrow, .summary-pkg .pkg-tagline, .summary-list .item-label,
+  .summary-list .item-price, .summary-total-row .tot-label, .summary-total-row .tot-val,
+  .summary-pkg h3, .summary-disclaimer, .summary-list .item-sub { color: #0C0C0C !important; }
+  .summary-total-row.primary .tot-val { color: #0C0C0C !important; }
+  .summary-list li { border-bottom: 1px dashed #ccc; }
+  .summary-totals { border-top: 1px solid #0C0C0C; }
+  .summary .eyebrow { border-bottom: 2px solid #0C0C0C !important; }
+}
+
+.summary-wrap::-webkit-scrollbar { width: 6px; }
+.summary-wrap::-webkit-scrollbar-track { background: transparent; }
+.summary-wrap::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-pill); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <img src="assets/images/MTWK_PrimaryLogo_White.png" alt="Marketwake" />
+  </div>
+  <div class="nav-label">
+    SEO <span class="accent">/</span> AEO Scope Builder
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <span class="eyebrow">Internal <span class="sep">/</span> Sales Tool</span>
+    <h1>Scope the work. <span class="em">Make the wake.</span></h1>
+    <p>Build a tailored SEO + AEO engagement in real time. Pick a foundation, layer on content and reporting, and walk your client through a scope they can see building in front of them.</p>
+    <div class="hero-tagline">Left-brain strategy <span class="mid">+</span> Right-brain creativity</div>
+  </div>
+</section>
+
+<main class="main">
+
+  <!-- LEFT COLUMN: STEPS -->
+  <div class="left-col">
+
+    <!-- STEP 1: BASE PACKAGE -->
+    <section class="section" id="step1">
+      <span class="eyebrow">Step 01 <span class="sep">/</span> Base Package</span>
+      <h2 class="section-title">Start with your <em>foundation.</em></h2>
+
+      <div class="package-grid" id="packageGrid">
+
+        <!-- UNDERCURRENT -->
+        <div class="pkg-card" data-pkg="undercurrent">
+          <div class="icon-wrap"><img src="assets/images/Primary%20Icon%20White.png" alt="" /></div>
+          <h3>Undercurrent</h3>
+          <div class="tagline">Lay the foundation</div>
+          <ul>
+            <li class="pill-row"><span class="kw-pill">100 keyword hitlist</span></li>
+            <li>SEO audit</li>
+            <li>10 custom GA4 events</li>
+            <li>5 on-page / product-page optimizations / mo</li>
+            <li>3-month SEO + AEO content strategy</li>
+            <li>AEO Tier 1 reporting (monthly findings report)</li>
+            <li>Monthly Looker Studio dashboard + exec summary</li>
+          </ul>
+          <div class="price">$7,000<span>/mo</span></div>
+        </div>
+
+        <!-- CURRENT -->
+        <div class="pkg-card" data-pkg="current">
+          <div class="badge-popular">Most popular</div>
+          <div class="icon-wrap"><img src="assets/images/Primary%20Icon%20White.png" alt="" /></div>
+          <h3>Current</h3>
+          <div class="tagline">Build visibility and authority</div>
+          <ul>
+            <li class="pill-row"><span class="kw-pill">150 keyword hitlist</span></li>
+            <li>SEO audit</li>
+            <li>AEO prompt list</li>
+            <li>20 custom GA4 events</li>
+            <li>5 blog briefs / mo</li>
+            <li>10 on-page / product-page optimizations / mo</li>
+            <li>3-month SEO + AEO content strategy</li>
+            <li>AEO Tier 2 reporting (100 prompts tracked)</li>
+            <li>Monthly Looker Studio dashboard + exec summary</li>
+          </ul>
+          <div class="price">$10,000<span>/mo</span></div>
+        </div>
+
+        <!-- HIGH TIDE -->
+        <div class="pkg-card" data-pkg="hightide">
+          <div class="icon-wrap"><img src="assets/images/Secondary%20Icon%20White.png" alt="" /></div>
+          <h3>High Tide</h3>
+          <div class="tagline">Content engine, full throttle</div>
+          <ul>
+            <li class="pill-row"><span class="kw-pill">200 keyword hitlist</span></li>
+            <li>SEO audit</li>
+            <li>AEO prompt list</li>
+            <li>20 custom GA4 events</li>
+            <li>5 blog briefs / mo</li>
+            <li>5 authored blogs / mo (Marketwake writes)</li>
+            <li>Blog upload + publish included</li>
+            <li>15 on-page / product-page optimizations / mo</li>
+            <li>3-month SEO + AEO content strategy</li>
+            <li>AEO Tier 3 reporting (200 prompts tracked)</li>
+            <li>Monthly Looker Studio dashboard + exec summary</li>
+          </ul>
+          <div class="price">$14,000<span>/mo</span></div>
+        </div>
+
+        <!-- RIP TIDE -->
+        <div class="pkg-card" data-pkg="riptide">
+          <div class="icon-wrap"><img src="assets/images/Secondary%20Icon%20White.png" alt="" /></div>
+          <h3>Rip Tide</h3>
+          <div class="tagline">Total search domination</div>
+          <ul>
+            <li class="pill-row"><span class="kw-pill">250 keyword hitlist</span></li>
+            <li>SEO audit</li>
+            <li>AEO prompt list</li>
+            <li>20 custom GA4 events</li>
+            <li>5 blog briefs / mo</li>
+            <li>10 authored blogs / mo (Marketwake writes)</li>
+            <li>Blog upload + publish included</li>
+            <li>20 on-page / product-page optimizations / mo</li>
+            <li>3-month SEO + AEO content strategy</li>
+            <li>AEO Tier 4 reporting (300 prompts tracked)</li>
+            <li>QBR delivered quarterly</li>
+            <li>Dedicated Marketwake strategist</li>
+          </ul>
+          <div class="price">$20,000<span>/mo</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WAVE DIVIDER -->
+    <svg class="wave-divider" viewBox="0 0 1600 38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 19 Q100 0 200 19 T400 19 T600 19 T800 19 T1000 19 T1200 19 T1400 19 T1600 19"
+            fill="none" stroke="#EEFF25" stroke-width="1.5"/>
+      <path d="M0 24 Q100 4 200 24 T400 24 T600 24 T800 24 T1000 24 T1200 24 T1400 24 T1600 24"
+            fill="none" stroke="#EEFF25" stroke-width="1" opacity="0.4"/>
+    </svg>
+
+    <div class="info-strip">
+      <span>Refreshing an existing blog = 0.5 content credit. Mix new and repurposed posts to maximize output at lower cost.</span>
+    </div>
+
+    <!-- STEP 2: ADD-ONS -->
+    <section class="section" id="step2">
+      <span class="eyebrow">Step 02 <span class="sep">/</span> Build Your Stack</span>
+      <h2 class="section-title">Customize your <em>scope.</em></h2>
+
+      <div class="addons">
+
+        <!-- ADDON 1: BLOG BRIEFS -->
+        <div class="addon" data-addon="briefs">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Blog briefs</div>
+                <div class="addon-desc">SEO-optimized briefs / mo. Client writes the posts. Briefs follow the same cadence as authored blogs: every 5 briefs = 4 standard (800 to 2k words) + 1 long-form (2 to 4k words).</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="briefs">$0 / mo</div>
+              <div class="toggle" data-toggle="briefs"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="slider-row">
+              <input type="range" min="5" max="30" step="5" value="5" data-slider="briefs" />
+              <div class="slider-val" data-sliderval="briefs">5</div>
+            </div>
+            <div class="slider-output" data-output="briefs">
+              <strong>5 briefs / mo</strong> · $175 each · $875 / mo
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON 2: AUTHORED BLOGS -->
+        <div class="addon" data-addon="authored">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Authored blogs (Marketwake writes)</div>
+                <div class="addon-desc">Marketwake researches, writes, and delivers. All posts 800 to 2,000 words. Every 5 blogs includes 1 long-form piece (2,000 to 4,000 words) replacing one standard post.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="authored">$0 / mo</div>
+              <div class="toggle" data-toggle="authored"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="slider-row">
+              <input type="range" min="5" max="30" step="5" value="5" data-slider="authored" />
+              <div class="slider-val" data-sliderval="authored">5</div>
+            </div>
+            <div class="slider-output" data-output="authored">
+              <strong>4 standard posts (800 to 2k words) + 1 long-form article (2 to 4k words)</strong> · $600 each · $3,000 / mo
+            </div>
+            <div class="callout" data-callout="authored">1 deep-dive article included this month</div>
+
+            <div class="sub-toggle">
+              <div class="toggle" data-toggle="repurpose"></div>
+              <div>Include repurposed posts?</div>
+            </div>
+            <div class="repurpose-line" data-repurpose-line>
+              <span data-repurpose-text>5 new posts + 0 repurposed (0.5 credit each) = 5.0 total credits / mo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON 3: UPLOAD + PUBLISH -->
+        <div class="addon" data-addon="upload">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Blog upload + publish</div>
+                <div class="addon-desc">CMS upload, formatting, metadata, internal linking. Client just approves.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price">$600 / mo</div>
+              <div class="toggle" data-toggle="upload"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON 4: ON-PAGE / PRODUCT-PAGE OPTS -->
+        <div class="addon" data-addon="onpage">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">On-page / product-page optimizations</div>
+                <div class="addon-desc">Copy, headings, structure, meta. For ecommerce brands this includes product detail pages. Design and dev billed separately.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="onpage">$0 / mo</div>
+              <div class="toggle" data-toggle="onpage"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="slider-row">
+              <input type="range" min="5" max="30" step="5" value="5" data-slider="onpage" />
+              <div class="slider-val" data-sliderval="onpage">5</div>
+            </div>
+            <div class="slider-output" data-output="onpage">
+              <strong>5 pages / mo</strong> · $225 each · $1,125 / mo
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON 5: AEO REPORTING -->
+        <div class="addon active" data-addon="aeo">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">AEO reporting tier</div>
+                <div class="addon-desc">Auto-selected based on your base package. Override if needed.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="aeo">$500 / mo</div>
+            </div>
+          </div>
+          <div class="addon-body" style="display:block; border-top: 1px solid var(--border); margin-top: 20px; padding-top: 20px;">
+            <div class="tier-pills" id="tierPills">
+              <button class="tier-pill active" data-tier="1">Tier 1 · Signal</button>
+              <button class="tier-pill" data-tier="2">Tier 2 · Pulse</button>
+              <button class="tier-pill" data-tier="3">Tier 3 · Current</button>
+              <button class="tier-pill" data-tier="4">Tier 4 · Rip Tide</button>
+            </div>
+            <div class="tier-desc" id="tierDesc">
+              <strong>Tier 1 · Signal</strong>
+              GA4 organic traffic + event completion + LLM source traffic. No Scrunch. $500 / mo.
+              <span class="note">Scrunch tracks your prompts across 4 LLMs: 0 prompts × 4 models = 0 data points / mo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON 6: YEXT + REVIEW MANAGEMENT -->
+        <div class="addon" data-addon="yext">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Yext + review management</div>
+                <div class="addon-desc">Full listings management across 200+ directories plus review monitoring and response across every location. Starts at $185 / location with $5 off every 10 locations (floor: $100 / location, max 200 locations).</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="yext">$0 / mo</div>
+              <div class="toggle" data-toggle="yext"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="loc-row">
+              <div class="loc-input-wrap">
+                <label>Locations</label>
+                <input type="number" min="1" max="500" step="1" value="1" data-yext-input />
+                <div class="loc-steppers">
+                  <button class="loc-stepper" data-yext-step="1" aria-label="Increase">+</button>
+                  <button class="loc-stepper" data-yext-step="-1" aria-label="Decrease">−</button>
+                </div>
+              </div>
+            </div>
+            <div class="slider-output" data-output="yext">
+              <strong>1 location</strong> · $185 each · $185 / mo
+            </div>
+            <div class="callout">All review monitoring + response included</div>
+          </div>
+        </div>
+
+        <!-- ADDON 7: QBR -->
+        <div class="addon" data-addon="qbr">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Quarterly business review</div>
+                <div class="addon-desc">Deep-dive SEO + AEO presentation delivered by Marketwake.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price">$3,500 / quarter</div>
+              <div class="toggle" data-toggle="qbr"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- RIGHT COLUMN: SUMMARY -->
+  <aside class="summary-wrap">
+    <div class="summary" id="summary">
+      <span class="eyebrow">Your Scope</span>
+      <div class="summary-pkg">
+        <h3 id="sumPkgName">No package selected</h3>
+        <div class="pkg-tagline" id="sumPkgTag">Pick a foundation to begin.</div>
+      </div>
+      <ul class="summary-list" id="sumList">
+        <li class="summary-empty">Your configured items will appear here.</li>
+      </ul>
+      <div class="summary-totals">
+        <div class="summary-total-row primary">
+          <span class="tot-label">Monthly recurring</span>
+          <span class="tot-val" id="totMonthly">$0</span>
+        </div>
+        <div class="summary-total-row secondary" id="rowOneTime" style="display:none;">
+          <span class="tot-label">One-time</span>
+          <span class="tot-val" id="totOneTime">$0</span>
+        </div>
+        <div class="summary-total-row secondary" id="rowQuarterly" style="display:none;">
+          <span class="tot-label">Quarterly</span>
+          <span class="tot-val" id="totQuarterly">$0</span>
+        </div>
+      </div>
+      <button class="cta" id="ctaPrint">Request this scope  →</button>
+      <a href="#" class="cta-mail" id="ctaMail">or email this scope</a>
+      <div class="summary-disclaimer">
+        All pricing is custom-quoted. This scope is a starting point for your discovery call with Marketwake.
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<footer class="site-footer">
+  <img src="assets/images/Secondary%20Icon%20White.png" alt="" />
+  <span>SEO <span class="dot">/</span> AEO Scope Builder</span>
+  <span class="dot">·</span>
+  <span class="tagline">Left-brain strategy · Right-brain creativity</span>
+  <span class="dot">·</span>
+  <span>Marketwake ©2025</span>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+// Package "includes" = quantities bundled into the monthly package price.
+// Add-on sliders charge only for quantities ABOVE the included amount.
+const PACKAGES = {
+  undercurrent: {
+    name: 'Undercurrent', tagline: 'Lay the foundation',
+    price: 7000,  tier: 1, keywords: 100,
+    includes: { briefs: 0, authored: 0, onpage: 5,  upload: false }
+  },
+  current: {
+    name: 'Current', tagline: 'Build visibility and authority',
+    price: 10000, tier: 2, keywords: 150,
+    includes: { briefs: 5, authored: 0, onpage: 10, upload: false }
+  },
+  hightide: {
+    name: 'High Tide', tagline: 'Content engine, full throttle',
+    price: 14000, tier: 3, keywords: 200,
+    includes: { briefs: 5, authored: 5, onpage: 15, upload: true }
+  },
+  riptide: {
+    name: 'Rip Tide', tagline: 'Total search domination',
+    price: 20000, tier: 4, keywords: 250,
+    includes: { briefs: 5, authored: 10, onpage: 20, upload: true }
+  },
+};
+
+// Per-unit prices at each 5-unit volume break
+const PRICE_BREAKS = {
+  briefs:   { 5: 175, 10: 160, 15: 145, 20: 130, 25: 115, 30: 100 },
+  authored: { 5: 600, 10: 560, 15: 520, 20: 480, 25: 440, 30: 400 },
+  onpage:   { 5: 225, 10: 205, 15: 185, 20: 170, 25: 155, 30: 140 },
+};
+
+// AEO reporting. Tier 1 is included free with every SEO client.
+// T2/T3/T4 are upcharges. If the selected package already includes a higher
+// tier, the delta is $0 (baked into the package price).
+const TIERS = {
+  1: { name: 'Tier 1 · Signal',   price: 0,    prompts: 0,
+       baseDesc: 'GA4 organic traffic + event completion + LLM source traffic. No Scrunch. Included with every SEO client.' },
+  2: { name: 'Tier 2 · Pulse',    price: 500,  prompts: 100,
+       baseDesc: 'Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, Perplexity. Monthly AEO findings report included.' },
+  3: { name: 'Tier 3 · Current',  price: 750,  prompts: 200,
+       baseDesc: 'Tier 2 + 200 prompts. Share of voice, trend tracking, gap analysis. Monthly AEO findings report included.' },
+  4: { name: 'Tier 4 · Rip Tide', price: 1000, prompts: 300,
+       baseDesc: 'Tier 3 + 300 prompts. Citation source map, multi-model analysis, QBR-ready data. Monthly AEO findings report included.' },
+};
+
+const FLAT = {
+  upload: { price: 600,  label: 'Blog upload + publish' },
+  qbr:    { price: 3500, label: 'Quarterly business review' },
+};
+
+// Yext: base $185/location, $5 off every 10 locations, floor at $100, max 200 locations.
+const YEXT_BASE = 185;
+const YEXT_FLOOR = 100;
+const YEXT_MAX = 200;
+function yextUnitPrice(locs) {
+  const bracket = Math.floor(Math.max(1, locs) / 10);
+  return Math.max(YEXT_FLOOR, YEXT_BASE - 5 * bracket);
+}
+
+/* ============ STATE ============ */
+const state = {
+  pkg: null,
+  briefs:   { on: false, value: 5 },
+  authored: { on: false, value: 5, repurpose: false },
+  upload:   { on: false },
+  onpage:   { on: false, value: 5 },
+  tier:     1,
+  yext:     { on: false, locations: 1 },
+  qbr:      { on: false },
+};
+
+/* ============ HELPERS ============ */
+const $  = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+function unitPrice(kind, qty) {
+  const step = Math.max(5, Math.floor(qty / 5) * 5);
+  return PRICE_BREAKS[kind][step] || PRICE_BREAKS[kind][5];
+}
+function authoredBreakdown(qty) {
+  const longform = Math.floor(qty / 5);
+  const standard = qty - longform;
+  return { longform, standard };
+}
+
+/* ============ RENDER ============ */
+function render() {
+  renderPackageCards();
+  renderAddons();
+  renderSummary();
+}
+
+function renderPackageCards() {
+  $$('.pkg-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.pkg === state.pkg);
+  });
+}
+
+// Pull included quantities from the currently selected package (0 if none)
+function pkgIncludes() {
+  if (!state.pkg) return { briefs: 0, authored: 0, onpage: 0, upload: false };
+  return PACKAGES[state.pkg].includes;
+}
+
+// Calculates cost + display bits for a volume add-on given total qty + included qty.
+function addonCost(kind, total, included) {
+  const charged = Math.max(0, total - included);
+  // Volume break is based on what's actually produced (total), not charged.
+  const up = unitPrice(kind, Math.max(5, total));
+  const cost = charged * up;
+  return { charged, included, up, cost };
+}
+
+function renderAddons() {
+  const inc = pkgIncludes();
+
+  // Every authored blog always ships with its own brief, so authored count
+  // reduces what we charge for on the briefs slider.
+  const authoredCovered = state.authored.on ? state.authored.value : 0;
+  const briefsEffectiveInc = inc.briefs + authoredCovered;
+
+  // ---------- BLOG BRIEFS ----------
+  // Briefs follow the same cadence as authored blogs: every 5 briefs =
+  // 4 standard (800 to 2k words) + 1 long-form (2 to 4k words).
+  const briefsEl = $('.addon[data-addon="briefs"]');
+  briefsEl.classList.toggle('active', state.briefs.on);
+  briefsEl.classList.toggle('open', state.briefs.on);
+  $('[data-toggle="briefs"]').classList.toggle('on', state.briefs.on);
+  {
+    const slider = $('[data-slider="briefs"]');
+    const floor = Math.max(5, briefsEffectiveInc || 5);
+    slider.min = floor;
+    if (state.briefs.value < floor) state.briefs.value = floor;
+    slider.value = state.briefs.value;
+    $('[data-sliderval="briefs"]').textContent = state.briefs.value;
+
+    const r = addonCost('briefs', state.briefs.value, briefsEffectiveInc);
+    const b = authoredBreakdown(state.briefs.value);
+    const breakdown = `${b.standard} standard (800 to 2k words) + ${b.longform} long-form (2 to 4k words)`;
+    const incNote = authoredCovered > 0
+      ? `${inc.briefs} package + ${authoredCovered} from authored blogs`
+      : `${inc.briefs} included in package`;
+    let output;
+    if (briefsEffectiveInc > 0 && r.charged === 0) {
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${incNote} · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (briefsEffectiveInc > 0) {
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${incNote} + ${r.charged} at ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    } else {
+      output = `<strong>${state.briefs.value} briefs / mo</strong> · ${breakdown} · ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    }
+    $('[data-output="briefs"]').innerHTML = output;
+    $('[data-price="briefs"]').textContent = state.briefs.on ? (r.cost > 0 ? `${fmt(r.cost)} / mo` : 'Included · $0') : '$0 / mo';
+  }
+
+  // ---------- AUTHORED BLOGS ----------
+  const authEl = $('.addon[data-addon="authored"]');
+  authEl.classList.toggle('active', state.authored.on);
+  authEl.classList.toggle('open', state.authored.on);
+  $('[data-toggle="authored"]').classList.toggle('on', state.authored.on);
+  {
+    const slider = $('[data-slider="authored"]');
+    slider.min = Math.max(5, inc.authored || 5);
+    if (state.authored.value < slider.min) state.authored.value = Number(slider.min);
+    slider.value = state.authored.value;
+    $('[data-sliderval="authored"]').textContent = state.authored.value;
+
+    const qty = state.authored.value;
+    const r = addonCost('authored', qty, inc.authored);
+    const b = authoredBreakdown(qty);
+    const breakdown = `${b.standard} standard (800 to 2k words) + ${b.longform} long-form (2 to 4k words)`;
+    let output;
+    if (inc.authored > 0 && r.charged === 0) {
+      output = `<strong>${qty} posts / mo</strong> · ${breakdown} · all ${inc.authored} included · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (inc.authored > 0) {
+      output = `<strong>${qty} posts / mo</strong> · ${breakdown} · ${inc.authored} included + ${r.charged} at ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    } else {
+      output = `<strong>${breakdown}</strong> · ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    }
+    $('[data-output="authored"]').innerHTML = output;
+    $('[data-callout="authored"]').textContent =
+      `${b.longform} deep-dive article${b.longform === 1 ? '' : 's'} included this month`;
+    $('[data-price="authored"]').textContent = state.authored.on ? (r.cost > 0 ? `${fmt(r.cost)} / mo` : 'Included · $0') : '$0 / mo';
+
+    $('[data-toggle="repurpose"]').classList.toggle('on', state.authored.repurpose);
+    const repLine = $('[data-repurpose-line]');
+    repLine.classList.toggle('show', state.authored.repurpose);
+    if (state.authored.repurpose) {
+      const credits = qty + qty * 0.5;
+      $('[data-repurpose-text]').textContent =
+        `${qty} new posts + ${qty} repurposed (0.5 credit each) = ${credits.toFixed(1)} total credits / mo`;
+    }
+  }
+
+  // ---------- UPLOAD + PUBLISH ----------
+  const upEl = $('.addon[data-addon="upload"]');
+  const uploadIncluded = inc.upload;
+  upEl.classList.toggle('active', state.upload.on || uploadIncluded);
+  $('[data-toggle="upload"]').classList.toggle('on', state.upload.on || uploadIncluded);
+  // Update upload price label
+  {
+    const priceEl = upEl.querySelector('.addon-price');
+    if (uploadIncluded) priceEl.textContent = 'Included · $0';
+    else priceEl.textContent = `${fmt(FLAT.upload.price)} / mo`;
+  }
+
+  // ---------- ON-PAGE / PRODUCT-PAGE ----------
+  const opEl = $('.addon[data-addon="onpage"]');
+  opEl.classList.toggle('active', state.onpage.on);
+  opEl.classList.toggle('open', state.onpage.on);
+  $('[data-toggle="onpage"]').classList.toggle('on', state.onpage.on);
+  {
+    const slider = $('[data-slider="onpage"]');
+    slider.min = Math.max(5, inc.onpage || 5);
+    if (state.onpage.value < slider.min) state.onpage.value = Number(slider.min);
+    slider.value = state.onpage.value;
+    $('[data-sliderval="onpage"]').textContent = state.onpage.value;
+
+    const r = addonCost('onpage', state.onpage.value, inc.onpage);
+    let output;
+    if (inc.onpage > 0 && r.charged === 0) {
+      output = `<strong>${state.onpage.value} pages / mo</strong> · all ${inc.onpage} included in package · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (inc.onpage > 0) {
+      output = `<strong>${state.onpage.value} pages / mo</strong> · ${inc.onpage} included + ${r.charged} at ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    } else {
+      output = `<strong>${state.onpage.value} pages / mo</strong> · ${fmt(r.up)} each · ${fmt(r.cost)} / mo`;
+    }
+    $('[data-output="onpage"]').innerHTML = output;
+    $('[data-price="onpage"]').textContent = state.onpage.on ? (r.cost > 0 ? `${fmt(r.cost)} / mo` : 'Included · $0') : '$0 / mo';
+  }
+
+  // ---------- AEO REPORTING ----------
+  // Tier 1 is free for all SEO clients. Tier 2/3/4 charge their flat monthly price.
+  $$('.tier-pill').forEach(p => {
+    p.classList.toggle('active', Number(p.dataset.tier) === state.tier);
+  });
+  {
+    const sel = TIERS[state.tier];
+    const priceLine = sel.price === 0
+      ? 'Included free with every SEO client.'
+      : `${fmt(sel.price)} / mo.`;
+    $('#tierDesc').innerHTML =
+      `<strong>${sel.name}</strong>${sel.baseDesc} <strong>${priceLine}</strong>` +
+      `<span class="note">Scrunch tracks your prompts across 4 LLMs: ${sel.prompts} prompts × 4 models = ${sel.prompts * 4} data points / mo</span>`;
+    $('[data-price="aeo"]').textContent = sel.price > 0 ? `${fmt(sel.price)} / mo` : 'Included · $0';
+  }
+
+  // ---------- YEXT ----------
+  const yextEl = $('.addon[data-addon="yext"]');
+  yextEl.classList.toggle('active', state.yext.on);
+  yextEl.classList.toggle('open', state.yext.on);
+  $('[data-toggle="yext"]').classList.toggle('on', state.yext.on);
+  {
+    const locs = state.yext.locations;
+    const up = yextUnitPrice(locs);
+    const tot = locs * up;
+    $('[data-yext-input]').value = locs;
+    const savings = (YEXT_BASE - up);
+    const savingsNote = savings > 0 ? ` · $${savings} / location volume discount` : '';
+    $('[data-output="yext"]').innerHTML =
+      `<strong>${locs} location${locs === 1 ? '' : 's'}</strong> · $${up} each${savingsNote} · ${fmt(tot)} / mo`;
+    $('[data-price="yext"]').textContent = state.yext.on ? `${fmt(tot)} / mo` : '$0 / mo';
+  }
+
+  // ---------- QBR ----------
+  $('.addon[data-addon="qbr"]').classList.toggle('active', state.qbr.on);
+  $('[data-toggle="qbr"]').classList.toggle('on', state.qbr.on);
+}
+
+function buildLineItems() {
+  const items = [];
+  let monthly = 0, oneTime = 0, quarterly = 0;
+  const inc = pkgIncludes();
+
+  if (state.pkg) {
+    const p = PACKAGES[state.pkg];
+    const incBits = [];
+    incBits.push(`${p.keywords} keyword hitlist`);
+    incBits.push('3-month content strategy');
+    incBits.push(`AEO ${TIERS[p.tier].name.split(' · ')[0]}`);
+    if (inc.briefs)   incBits.push(`${inc.briefs} briefs/mo`);
+    if (inc.authored) incBits.push(`${inc.authored} authored blogs/mo`);
+    if (inc.onpage)   incBits.push(`${inc.onpage} page opts/mo`);
+    if (inc.upload)   incBits.push('upload + publish');
+    items.push({
+      kind: 'monthly',
+      label: `${p.name} package`,
+      sub: `${p.tagline} · includes ${incBits.join(' · ')}`,
+      amount: p.price
+    });
+    monthly += p.price;
+  }
+
+  if (state.briefs.on) {
+    const authoredCovered = state.authored.on ? state.authored.value : 0;
+    const briefsEffectiveInc = inc.briefs + authoredCovered;
+    const r = addonCost('briefs', state.briefs.value, briefsEffectiveInc);
+    if (r.charged > 0) {
+      const incNote = authoredCovered > 0
+        ? `${inc.briefs} package + ${authoredCovered} from authored`
+        : `${inc.briefs} included`;
+      items.push({
+        kind: 'monthly',
+        label: `Blog briefs × ${r.charged} extra`,
+        sub: `${state.briefs.value} total (${incNote}) · ${fmt(r.up)} each`,
+        amount: r.cost
+      });
+      monthly += r.cost;
+    }
+  }
+
+  if (state.authored.on) {
+    const qty = state.authored.value;
+    const r = addonCost('authored', qty, inc.authored);
+    const b = authoredBreakdown(qty);
+    if (r.charged > 0) {
+      items.push({
+        kind: 'monthly',
+        label: `Authored blogs × ${r.charged} extra`,
+        sub: `${qty} total (${inc.authored} included) · ${b.standard} std + ${b.longform} long-form · ${fmt(r.up)} each`,
+        amount: r.cost
+      });
+      monthly += r.cost;
+    }
+  }
+
+  // Upload: add a charge only if not already included in package
+  if (state.upload.on && !inc.upload) {
+    items.push({ kind: 'monthly', label: FLAT.upload.label, amount: FLAT.upload.price });
+    monthly += FLAT.upload.price;
+  }
+
+  if (state.onpage.on) {
+    const r = addonCost('onpage', state.onpage.value, inc.onpage);
+    if (r.charged > 0) {
+      items.push({
+        kind: 'monthly',
+        label: `On-page / product-page opts × ${r.charged} extra`,
+        sub: `${state.onpage.value} total (${inc.onpage} included) · ${fmt(r.up)} each`,
+        amount: r.cost
+      });
+      monthly += r.cost;
+    }
+  }
+
+  // AEO reporting: Tier 1 is free for all clients, Tier 2/3/4 charge flat.
+  {
+    const sel = TIERS[state.tier];
+    if (sel.price > 0) {
+      items.push({
+        kind: 'monthly',
+        label: `AEO reporting · ${sel.name}`,
+        sub: `${sel.prompts} prompts × 4 LLMs · monthly findings report included`,
+        amount: sel.price
+      });
+      monthly += sel.price;
+    }
+  }
+
+  if (state.yext.on) {
+    const up = yextUnitPrice(state.yext.locations);
+    const tot = state.yext.locations * up;
+    items.push({
+      kind: 'monthly',
+      label: `Yext + review management × ${state.yext.locations} location${state.yext.locations === 1 ? '' : 's'}`,
+      sub: `$${up} / location · all reviews managed by Marketwake`,
+      amount: tot
+    });
+    monthly += tot;
+  }
+
+  if (state.qbr.on) {
+    items.push({ kind: 'quarter', label: FLAT.qbr.label, amount: FLAT.qbr.price });
+    quarterly += FLAT.qbr.price;
+  }
+
+  return { items, monthly, oneTime, quarterly };
+}
+
+function renderSummary() {
+  const { items, monthly, oneTime, quarterly } = buildLineItems();
+
+  if (state.pkg) {
+    const p = PACKAGES[state.pkg];
+    $('#sumPkgName').textContent = p.name;
+    $('#sumPkgTag').textContent = p.tagline;
+  } else {
+    $('#sumPkgName').textContent = 'No package selected';
+    $('#sumPkgTag').textContent = 'Pick a foundation to begin.';
+  }
+
+  const listEl = $('#sumList');
+  if (items.length === 0) {
+    listEl.innerHTML = '<li class="summary-empty">Your configured items will appear here.</li>';
+  } else {
+    listEl.innerHTML = items.map(it => {
+      const suffix = it.kind === 'once' ? ' one-time' : it.kind === 'quarter' ? ' / qtr' : ' / mo';
+      const sub = it.sub ? `<span class="item-sub">${it.sub}</span>` : '';
+      return `<li>
+        <span class="item-label">${it.label}${sub}</span>
+        <span class="item-price">${fmt(it.amount)}${suffix}</span>
+      </li>`;
+    }).join('');
+  }
+
+  const totMonthlyEl = $('#totMonthly');
+  const prev = totMonthlyEl.dataset.val || '0';
+  const next = String(monthly);
+  if (prev !== next) {
+    totMonthlyEl.classList.add('bump');
+    setTimeout(() => totMonthlyEl.classList.remove('bump'), 260);
+  }
+  totMonthlyEl.textContent = fmt(monthly) + (monthly ? ' / mo' : '');
+  totMonthlyEl.dataset.val = next;
+
+  $('#rowOneTime').style.display = oneTime ? 'flex' : 'none';
+  $('#totOneTime').textContent = fmt(oneTime);
+  $('#rowQuarterly').style.display = quarterly ? 'flex' : 'none';
+  $('#totQuarterly').textContent = fmt(quarterly) + ' / qtr';
+}
+
+/* ============ EVENTS ============ */
+
+// Package selection: pre-fill sliders and toggles to what the package already includes
+$$('.pkg-card').forEach(card => {
+  card.addEventListener('click', () => {
+    state.pkg = card.dataset.pkg;
+    const p = PACKAGES[state.pkg];
+    state.tier = p.tier;
+
+    const inc = p.includes;
+    // Briefs
+    if (inc.briefs > 0) {
+      state.briefs.on = true;
+      state.briefs.value = Math.max(5, inc.briefs);
+    }
+    // Authored
+    if (inc.authored > 0) {
+      state.authored.on = true;
+      state.authored.value = Math.max(5, inc.authored);
+    }
+    // On-page
+    state.onpage.on = true;
+    state.onpage.value = Math.max(5, inc.onpage);
+    // Upload
+    state.upload.on = inc.upload;
+    render();
+  });
+});
+
+// Toggles
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-toggle]');
+  if (!t) return;
+  const key = t.dataset.toggle;
+  if (key === 'repurpose') {
+    state.authored.repurpose = !state.authored.repurpose;
+  } else if (state[key] !== undefined) {
+    state[key].on = !state[key].on;
+  }
+  render();
+});
+
+// Sliders - clamp to package included floor
+$$('input[type="range"][data-slider]').forEach(slider => {
+  slider.addEventListener('input', () => {
+    const key = slider.dataset.slider;
+    let val = parseInt(slider.value, 10);
+    val = Math.round(val / 5) * 5;
+    const inc = pkgIncludes();
+    const floor = Math.max(5, inc[key] || 0);
+    if (val < floor) val = floor;
+    slider.value = val;
+    state[key].value = val;
+    if (!state[key].on) state[key].on = true;
+    render();
+  });
+});
+
+// Tier pills
+$$('.tier-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    state.tier = Number(pill.dataset.tier);
+    render();
+  });
+});
+
+// Yext location input + steppers (clamped 1 to YEXT_MAX = 200)
+const yextInput = $('[data-yext-input]');
+yextInput.max = YEXT_MAX;
+yextInput.addEventListener('input', () => {
+  let v = parseInt(yextInput.value, 10);
+  if (isNaN(v) || v < 1) v = 1;
+  if (v > YEXT_MAX) v = YEXT_MAX;
+  state.yext.locations = v;
+  if (!state.yext.on) state.yext.on = true;
+  render();
+});
+$$('[data-yext-step]').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const step = Number(btn.dataset.yextStep);
+    let v = state.yext.locations + step;
+    if (v < 1) v = 1;
+    if (v > YEXT_MAX) v = YEXT_MAX;
+    state.yext.locations = v;
+    if (!state.yext.on) state.yext.on = true;
+    render();
+  });
+});
+
+// CTAs
+$('#ctaPrint').addEventListener('click', () => window.print());
+$('#ctaMail').addEventListener('click', (e) => {
+  e.preventDefault();
+  const { items, monthly, oneTime, quarterly } = buildLineItems();
+  const lines = [];
+  lines.push('Marketwake SEO / AEO Scope');
+  lines.push('==========================');
+  lines.push('');
+  if (state.pkg) {
+    const p = PACKAGES[state.pkg];
+    lines.push(`Package: ${p.name} - ${p.tagline}`);
+    lines.push(`Keyword hitlist: ${p.keywords}`);
+    lines.push('3-month content strategy: included');
+    lines.push('');
+  }
+  items.forEach(it => {
+    const suffix = it.kind === 'once' ? ' one-time' : it.kind === 'quarter' ? ' / quarter' : ' / mo';
+    lines.push(`- ${it.label}: ${fmt(it.amount)}${suffix}${it.sub ? ' (' + it.sub + ')' : ''}`);
+  });
+  lines.push('');
+  lines.push(`Monthly recurring: ${fmt(monthly)} / mo`);
+  if (oneTime)   lines.push(`One-time:          ${fmt(oneTime)}`);
+  if (quarterly) lines.push(`Quarterly:         ${fmt(quarterly)} / quarter`);
+  lines.push('');
+  lines.push('Left-brain strategy / Right-brain creativity');
+  lines.push('All pricing is custom-quoted. This scope is a starting point for your discovery call with Marketwake.');
+
+  const subject = encodeURIComponent('Marketwake SEO / AEO Scope');
+  const body = encodeURIComponent(lines.join('\n'));
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+});
+
+/* ============ INIT ============ */
+render();
+</script>
+
+</body>
+</html>
