@@ -944,6 +944,7 @@ strong, b { font-weight: 500; }
           <ul>
             <li class="pill-row"><span class="kw-pill">100 keyword hitlist</span></li>
             <li>SEO audit</li>
+            <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>10 custom GA4 events</li>
             <li>5 blog briefs / mo (client writes)</li>
             <li>5 on-page / product-page optimizations / mo</li>
@@ -963,6 +964,7 @@ strong, b { font-weight: 500; }
           <ul>
             <li class="pill-row"><span class="kw-pill">150 keyword hitlist</span></li>
             <li>SEO audit</li>
+            <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>AEO prompt list</li>
             <li>20 custom GA4 events</li>
             <li>15 blog briefs / mo (client writes)</li>
@@ -983,6 +985,7 @@ strong, b { font-weight: 500; }
           <ul>
             <li class="pill-row"><span class="kw-pill">200 keyword hitlist</span></li>
             <li>SEO audit</li>
+            <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>AEO prompt list</li>
             <li>20 custom GA4 events</li>
             <li>20 blog briefs / mo</li>
@@ -1093,6 +1096,32 @@ strong, b { font-weight: 500; }
             <div class="addon-right">
               <div class="addon-price">$600 / mo</div>
               <div class="toggle" data-toggle="upload"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON: DEV HOURS -->
+        <div class="addon" data-addon="devhours">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Dev hours · Technical SEO fixes</div>
+                <div class="addon-desc">Dedicated bucket of dev hours / mo to fix the errors surfaced in the technical SEO analysis (schema, redirects, canonical tags, site speed, crawl issues, indexation). Pick a bucket size: 10, 20, or 30 hours.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="devhours">$0 / mo</div>
+              <div class="toggle" data-toggle="devhours"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="slider-row">
+              <input type="range" min="10" max="30" step="10" value="10" data-slider="devhours" />
+              <div class="slider-val" data-sliderval="devhours">10</div>
+            </div>
+            <div class="slider-output" data-output="devhours">
+              <strong>10 hours / mo</strong> · $175 / hour · $1,750 / mo
             </div>
           </div>
         </div>
@@ -1299,6 +1328,13 @@ const FLAT = {
             desc: 'Insights, recs, and findings delivered live by Marketwake' },
 };
 
+// Dev hour buckets: volume discount on hourly rate
+const DEV_HOURS = {
+  10: { rate: 175, total: 1750 },
+  20: { rate: 160, total: 3200 },
+  30: { rate: 150, total: 4500 },
+};
+
 // Yext: base $185/location, $5 off every 10 locations, floor at $100, max 200 locations.
 const YEXT_BASE = 185;
 const YEXT_FLOOR = 100;
@@ -1315,6 +1351,7 @@ const state = {
   authored: { on: false, value: 5, repurpose: false },
   upload:   { on: false },
   onpage:   { on: false, value: 5 },
+  devhours: { on: false, value: 10 },
   tier:     1,
   yext:     { on: false, locations: 1 },
   qbr:      { on: false },
@@ -1480,6 +1517,23 @@ function renderAddons() {
     $('[data-price="onpage"]').textContent = state.onpage.on ? (r.cost > 0 ? `${fmt(r.cost)} / mo` : 'Included · $0') : '$0 / mo';
   }
 
+  // ---------- DEV HOURS ----------
+  const devEl = $('.addon[data-addon="devhours"]');
+  devEl.classList.toggle('active', state.devhours.on);
+  devEl.classList.toggle('open', state.devhours.on);
+  $('[data-toggle="devhours"]').classList.toggle('on', state.devhours.on);
+  {
+    const slider = $('[data-slider="devhours"]');
+    // Snap to allowed buckets
+    if (![10, 20, 30].includes(state.devhours.value)) state.devhours.value = 10;
+    slider.value = state.devhours.value;
+    $('[data-sliderval="devhours"]').textContent = state.devhours.value;
+    const d = DEV_HOURS[state.devhours.value];
+    $('[data-output="devhours"]').innerHTML =
+      `<strong>${state.devhours.value} hours / mo</strong> · $${d.rate} / hour · ${fmt(d.total)} / mo`;
+    $('[data-price="devhours"]').textContent = state.devhours.on ? `${fmt(d.total)} / mo` : '$0 / mo';
+  }
+
   // ---------- AEO REPORTING ----------
   // Tier 1 is free for all SEO clients. Tier 2/3/4 charge their flat monthly price.
   $$('.tier-pill').forEach(p => {
@@ -1592,6 +1646,17 @@ function buildLineItems() {
       });
       monthly += r.cost;
     }
+  }
+
+  if (state.devhours.on) {
+    const d = DEV_HOURS[state.devhours.value];
+    items.push({
+      kind: 'monthly',
+      label: `Dev hours × ${state.devhours.value} / mo`,
+      sub: `Technical SEO fixes · $${d.rate} / hour`,
+      amount: d.total
+    });
+    monthly += d.total;
   }
 
   // AEO reporting: Tier 1 is free for all clients, Tier 2/3/4 charge flat.
