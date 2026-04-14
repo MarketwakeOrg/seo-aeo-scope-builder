@@ -1037,7 +1037,7 @@ strong, b { font-weight: 500; }
             <li>5 blog briefs / mo (SEO + AEO optimized, client writes)</li>
             <li>5 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
-            <li>AEO Tier 1 reporting (free for all SEO clients)</li>
+            <li><strong>AEO Tier 1 · Signal</strong> reporting bundled</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
           <div class="price">$7,500<span>/mo</span></div>
@@ -1059,6 +1059,7 @@ strong, b { font-weight: 500; }
             <li>10 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
+            <li><strong>AEO Tier 2 · Pulse</strong> reporting bundled (100 prompts)</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
           <div class="price">$14,000<span>/mo</span></div>
@@ -1079,6 +1080,7 @@ strong, b { font-weight: 500; }
             <li>15 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
+            <li><strong>AEO Tier 3 · Current</strong> reporting bundled (200 prompts)</li>
             <li>QBR delivered quarterly</li>
             <li>Dedicated Marketwake strategist</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
@@ -1401,23 +1403,23 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>AEO Tier 1 · Signal<span class="tag">Free for all clients</span></dt>
-        <dd>GA4 organic traffic, event completion tracking, and LLM source traffic (visits referred by AI assistants). No Scrunch tooling. Baseline AEO visibility included with every SEO engagement at no charge.</dd>
+        <dt>AEO Tier 1 · Signal<span class="tag">Bundled with Current</span></dt>
+        <dd>GA4 organic traffic, event completion tracking, and LLM source traffic (visits referred by AI assistants). No Scrunch tooling. Bundled into the Current package at no extra cost.</dd>
       </div>
 
       <div class="def-item">
-        <dt>AEO Tier 2 · Pulse</dt>
-        <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. $500 / mo.</dd>
+        <dt>AEO Tier 2 · Pulse<span class="tag">Bundled with High Tide</span></dt>
+        <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. Bundled into the High Tide package at no extra cost; $500 / mo delta if upgraded from Current.</dd>
       </div>
 
       <div class="def-item">
-        <dt>AEO Tier 3 · Current</dt>
-        <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. $750 / mo.</dd>
+        <dt>AEO Tier 3 · Current<span class="tag">Bundled with Rip Tide</span></dt>
+        <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. Bundled into the Rip Tide package at no extra cost; $750 / mo list price as an upgrade.</dd>
       </div>
 
       <div class="def-item">
         <dt>AEO Tier 4 · Rip Tide</dt>
-        <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,000 / mo.</dd>
+        <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,000 / mo list price. Available as an upgrade on any package; the cost billed is the delta above what the package already bundles.</dd>
       </div>
 
       <div class="def-item">
@@ -1527,12 +1529,12 @@ const PACKAGES = {
   },
   hightide: {
     name: 'High Tide', tagline: 'Build visibility and authority',
-    price: 14000, tier: 1, keywords: 150, ga4: 10,
+    price: 14000, tier: 2, keywords: 150, ga4: 10,
     includes: { briefs: 10, authored: 0, onpage: 10, upload: false }
   },
   riptide: {
     name: 'Rip Tide', tagline: 'Total search domination',
-    price: 20000, tier: 1, keywords: 200, ga4: 10,
+    price: 20000, tier: 3, keywords: 200, ga4: 10,
     includes: { briefs: 20, authored: 0, onpage: 15, upload: false }
   },
 };
@@ -1819,19 +1821,28 @@ function renderAddons() {
   }
 
   // ---------- AEO REPORTING ----------
-  // Tier 1 is free for all SEO clients. Tier 2/3/4 charge their flat monthly price.
+  // Current bundles T1, High Tide bundles T2, Rip Tide bundles T3. Anything
+  // above what your package bundles is charged as the delta.
   $$('.tier-pill').forEach(p => {
     p.classList.toggle('active', Number(p.dataset.tier) === state.tier);
   });
   {
     const sel = TIERS[state.tier];
-    const priceLine = sel.price === 0
-      ? 'Included free with every SEO client.'
-      : `${fmt(sel.price)} / mo.`;
+    const includedTier = state.pkg ? TIERS[PACKAGES[state.pkg].tier] : TIERS[1];
+    const delta = Math.max(0, sel.price - includedTier.price);
+
+    let priceLine;
+    if (state.tier === 1) {
+      priceLine = 'Included free with every SEO client.';
+    } else if (delta === 0) {
+      priceLine = `Bundled into the ${state.pkg ? PACKAGES[state.pkg].name : 'selected'} package at no extra cost.`;
+    } else {
+      priceLine = `${fmt(delta)} / mo upcharge above what your package bundles.`;
+    }
     $('#tierDesc').innerHTML =
       `<strong>${sel.name}</strong>${sel.baseDesc} <strong>${priceLine}</strong>` +
       `<span class="note">Scrunch tracks your prompts across 4 LLMs: ${sel.prompts} prompts × 4 models = ${sel.prompts * 4} data points / mo</span>`;
-    $('[data-price="aeo"]').textContent = sel.price > 0 ? `${fmt(sel.price)} / mo` : 'Included · $0';
+    $('[data-price="aeo"]').textContent = delta > 0 ? `${fmt(delta)} / mo` : 'Included · $0';
   }
 
   // ---------- YEXT ----------
@@ -1956,17 +1967,19 @@ function buildLineItems() {
     oneTime += tot;
   }
 
-  // AEO reporting: Tier 1 is free for all clients, Tier 2/3/4 charge flat.
+  // AEO reporting: only charge the delta above what the package bundles.
   {
     const sel = TIERS[state.tier];
-    if (sel.price > 0) {
+    const includedTier = state.pkg ? TIERS[PACKAGES[state.pkg].tier] : TIERS[1];
+    const delta = Math.max(0, sel.price - includedTier.price);
+    if (delta > 0) {
       items.push({
         kind: 'monthly',
-        label: `AEO reporting · ${sel.name}`,
+        label: `AEO upgrade to ${sel.name}`,
         sub: `${sel.prompts} prompts × 4 LLMs · monthly findings report included`,
-        amount: sel.price
+        amount: delta
       });
-      monthly += sel.price;
+      monthly += delta;
     }
   }
 
