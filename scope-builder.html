@@ -261,7 +261,11 @@ strong, b { font-weight: 500; }
   grid-template-columns: 1fr;
   gap: 18px;
 }
-@media (min-width: 640px) { .package-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 640px) {
+  .package-grid { grid-template-columns: 1fr 1fr; }
+  /* With 3 packages, stretch the final card across both columns */
+  .package-grid > .pkg-card:last-child { grid-column: 1 / -1; }
+}
 
 .pkg-card {
   position: relative;
@@ -932,60 +936,41 @@ strong, b { font-weight: 500; }
 
       <div class="package-grid" id="packageGrid">
 
-        <!-- UNDERCURRENT -->
-        <div class="pkg-card" data-pkg="undercurrent">
+        <!-- CURRENT -->
+        <div class="pkg-card" data-pkg="current">
           <div class="icon-wrap"><img src="assets/images/Primary%20Icon%20White.png" alt="" /></div>
-          <h3>Undercurrent</h3>
+          <h3>Current</h3>
           <div class="tagline">Lay the foundation</div>
           <ul>
             <li class="pill-row"><span class="kw-pill">100 keyword hitlist</span></li>
             <li>SEO audit</li>
             <li>10 custom GA4 events</li>
+            <li>5 blog briefs / mo (client writes)</li>
             <li>5 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
-            <li>AEO Tier 1 reporting (monthly findings report)</li>
+            <li>AEO Tier 1 reporting (free for all SEO clients)</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
-          <div class="price">$7,000<span>/mo</span></div>
+          <div class="price">$7,500<span>/mo</span></div>
         </div>
 
-        <!-- CURRENT -->
-        <div class="pkg-card" data-pkg="current">
+        <!-- HIGH TIDE -->
+        <div class="pkg-card" data-pkg="hightide">
           <div class="badge-popular">Most popular</div>
           <div class="icon-wrap"><img src="assets/images/Primary%20Icon%20White.png" alt="" /></div>
-          <h3>Current</h3>
+          <h3>High Tide</h3>
           <div class="tagline">Build visibility and authority</div>
           <ul>
             <li class="pill-row"><span class="kw-pill">150 keyword hitlist</span></li>
             <li>SEO audit</li>
             <li>AEO prompt list</li>
             <li>20 custom GA4 events</li>
-            <li>5 blog briefs / mo</li>
-            <li>10 on-page / product-page optimizations / mo</li>
-            <li>3-month SEO + AEO content strategy</li>
-            <li>AEO Tier 2 reporting (100 prompts tracked)</li>
-            <li>Monthly Looker Studio dashboard + exec summary</li>
-          </ul>
-          <div class="price">$10,000<span>/mo</span></div>
-        </div>
-
-        <!-- HIGH TIDE -->
-        <div class="pkg-card" data-pkg="hightide">
-          <div class="icon-wrap"><img src="assets/images/Secondary%20Icon%20White.png" alt="" /></div>
-          <h3>High Tide</h3>
-          <div class="tagline">Content engine, full throttle</div>
-          <ul>
-            <li class="pill-row"><span class="kw-pill">200 keyword hitlist</span></li>
-            <li>SEO audit</li>
-            <li>AEO prompt list</li>
-            <li>20 custom GA4 events</li>
-            <li>5 blog briefs / mo</li>
-            <li>5 authored blogs / mo (Marketwake writes)</li>
-            <li>Blog upload + publish included</li>
+            <li>15 blog briefs / mo (client writes)</li>
             <li>15 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
-            <li>AEO Tier 3 reporting (200 prompts tracked)</li>
+            <li>Quarterly content strategy refresh</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
+            <li><em>Authored blogs available as an upsell</em></li>
           </ul>
           <div class="price">$14,000<span>/mo</span></div>
         </div>
@@ -994,20 +979,21 @@ strong, b { font-weight: 500; }
         <div class="pkg-card" data-pkg="riptide">
           <div class="icon-wrap"><img src="assets/images/Secondary%20Icon%20White.png" alt="" /></div>
           <h3>Rip Tide</h3>
-          <div class="tagline">Total search domination</div>
+          <div class="tagline">Total search domination. The only package where Marketwake authors the articles.</div>
           <ul>
-            <li class="pill-row"><span class="kw-pill">250 keyword hitlist</span></li>
+            <li class="pill-row"><span class="kw-pill">200 keyword hitlist</span></li>
             <li>SEO audit</li>
             <li>AEO prompt list</li>
             <li>20 custom GA4 events</li>
-            <li>5 blog briefs / mo</li>
-            <li>10 authored blogs / mo (Marketwake writes)</li>
+            <li>20 blog briefs / mo</li>
+            <li><strong>10 authored blogs / mo (Marketwake writes)</strong></li>
             <li>Blog upload + publish included</li>
             <li>20 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
-            <li>AEO Tier 4 reporting (300 prompts tracked)</li>
+            <li>Quarterly content strategy refresh</li>
             <li>QBR delivered quarterly</li>
             <li>Dedicated Marketwake strategist</li>
+            <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
           <div class="price">$20,000<span>/mo</span></div>
         </div>
@@ -1206,11 +1192,11 @@ strong, b { font-weight: 500; }
               <div class="addon-dot"></div>
               <div>
                 <div class="addon-label">Quarterly business review</div>
-                <div class="addon-desc">Deep-dive SEO + AEO presentation delivered by Marketwake.</div>
+                <div class="addon-desc">Deep-dive SEO + AEO presentation delivered live by Marketwake. Includes insights, recommendations, and findings.</div>
               </div>
             </div>
             <div class="addon-right">
-              <div class="addon-price">$3,500 / quarter</div>
+              <div class="addon-price">$2,500 / quarter</div>
               <div class="toggle" data-toggle="qbr"></div>
             </div>
           </div>
@@ -1269,25 +1255,20 @@ strong, b { font-weight: 500; }
 // Package "includes" = quantities bundled into the monthly package price.
 // Add-on sliders charge only for quantities ABOVE the included amount.
 const PACKAGES = {
-  undercurrent: {
-    name: 'Undercurrent', tagline: 'Lay the foundation',
-    price: 7000,  tier: 1, keywords: 100,
-    includes: { briefs: 0, authored: 0, onpage: 5,  upload: false }
-  },
   current: {
-    name: 'Current', tagline: 'Build visibility and authority',
-    price: 10000, tier: 2, keywords: 150,
-    includes: { briefs: 5, authored: 0, onpage: 10, upload: false }
+    name: 'Current', tagline: 'Lay the foundation',
+    price: 7500,  tier: 1, keywords: 100,
+    includes: { briefs: 5, authored: 0, onpage: 5, upload: false }
   },
   hightide: {
-    name: 'High Tide', tagline: 'Content engine, full throttle',
-    price: 14000, tier: 3, keywords: 200,
-    includes: { briefs: 5, authored: 5, onpage: 15, upload: true }
+    name: 'High Tide', tagline: 'Build visibility and authority',
+    price: 14000, tier: 1, keywords: 150,
+    includes: { briefs: 15, authored: 0, onpage: 15, upload: false }
   },
   riptide: {
-    name: 'Rip Tide', tagline: 'Total search domination',
-    price: 20000, tier: 4, keywords: 250,
-    includes: { briefs: 5, authored: 10, onpage: 20, upload: true }
+    name: 'Rip Tide', tagline: 'Total search domination. Marketwake authors every article.',
+    price: 20000, tier: 1, keywords: 200,
+    includes: { briefs: 20, authored: 10, onpage: 20, upload: true }
   },
 };
 
@@ -1314,7 +1295,8 @@ const TIERS = {
 
 const FLAT = {
   upload: { price: 600,  label: 'Blog upload + publish' },
-  qbr:    { price: 3500, label: 'Quarterly business review' },
+  qbr:    { price: 2500, label: 'Quarterly business review',
+            desc: 'Insights, recs, and findings delivered live by Marketwake' },
 };
 
 // Yext: base $185/location, $5 off every 10 locations, floor at $100, max 200 locations.
