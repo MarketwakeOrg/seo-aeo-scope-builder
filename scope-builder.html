@@ -1085,7 +1085,7 @@ strong, b { font-weight: 500; }
             <li><strong>AEO Tier 2 · Pulse</strong> reporting bundled (100 prompts)</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
-          <div class="price">$9,000<span>/mo</span></div>
+          <div class="price">$13,500<span>/mo</span></div>
         </div>
 
         <!-- RIP TIDE -->
@@ -1098,7 +1098,8 @@ strong, b { font-weight: 500; }
             <li>SEO audit</li>
             <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>AEO prompt tracking (200 prompts total)</li>
-            <li>10 custom GA4 events</li>
+            <li><strong>20 custom GA4 events</strong> (10 baseline + 10 bundled)</li>
+            <li><strong>10 dev hours / mo</strong> for technical SEO fixes</li>
             <li>20 blog briefs / mo (SEO + AEO optimized, client writes)</li>
             <li>15 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
@@ -1109,7 +1110,7 @@ strong, b { font-weight: 500; }
             <li>Monthly Looker Studio dashboard + exec summary</li>
             <li><em>Authored blogs + upload/publish available as upsells</em></li>
           </ul>
-          <div class="price">$11,000<span>/mo</span></div>
+          <div class="price">$20,000<span>/mo</span></div>
         </div>
       </div>
     </section>
@@ -1436,17 +1437,17 @@ strong, b { font-weight: 500; }
 
       <div class="def-item">
         <dt>AEO Tier 2 · Pulse<span class="tag">Bundled with High Tide</span></dt>
-        <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. Bundled into the High Tide package at no extra cost; $500 / mo delta if upgraded from Current.</dd>
+        <dd>Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, and Perplexity. Includes a monthly AEO findings report with brand mention trends. Bundled into the High Tide package at no extra cost; $750 / mo delta if upgraded from Current.</dd>
       </div>
 
       <div class="def-item">
         <dt>AEO Tier 3 · Current<span class="tag">Bundled with Rip Tide</span></dt>
-        <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. Bundled into the Rip Tide package at no extra cost; $750 / mo list price as an upgrade.</dd>
+        <dd>Tier 2 + 200 prompts tracked. Adds share-of-voice analysis, trend tracking, and AEO gap analysis against competitors. Monthly findings report included. Bundled into the Rip Tide package at no extra cost; $1,100 / mo list price as an upgrade.</dd>
       </div>
 
       <div class="def-item">
         <dt>AEO Tier 4 · Rip Tide</dt>
-        <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,000 / mo list price. Available as an upgrade on any package; the cost billed is the delta above what the package already bundles.</dd>
+        <dd>Tier 3 + 300 prompts. Full citation source map, multi-model comparison analysis, and QBR-ready AEO data. Monthly findings report included. $1,600 / mo list price. Available as an upgrade on any package; the cost billed is the delta above what the package already bundles.</dd>
       </div>
 
       <div class="def-item">
@@ -1465,8 +1466,8 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>Custom GA4 events<span class="tag">10 included in all packages</span></dt>
-        <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. Every package includes 10 custom events. Need more? Add them as a one-time configuration fee with volume breaks starting at $150 / event.</dd>
+        <dt>Custom GA4 events</dt>
+        <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. Every package includes 10 custom events baseline. Rip Tide bundles 10 additional events (20 total). Need more? Add them as a one-time configuration fee with volume breaks starting at $200 / event.</dd>
       </div>
 
       <div class="def-item">
@@ -1475,8 +1476,8 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>Dev hours · Technical SEO fixes</dt>
-        <dd>A dedicated monthly bucket of developer time used to implement the technical fixes surfaced by the Lumar analysis: schema markup, redirects, canonical tags, site speed, crawl errors, and indexation issues. Sold in 10, 20, or 30 hour buckets with a volume discount.</dd>
+        <dt>Dev hours · Technical SEO fixes<span class="tag">10 hours bundled with Rip Tide</span></dt>
+        <dd>A dedicated monthly bucket of developer time used to implement the technical fixes surfaced by the Lumar analysis: schema markup, redirects, canonical tags, site speed, crawl errors, and indexation issues. Sold in 10, 20, or 30 hour buckets with a volume discount ($225 to $190 per hour). Rip Tide bundles 10 hours per month at no extra cost.</dd>
       </div>
 
       <div class="def-item">
@@ -1501,7 +1502,7 @@ strong, b { font-weight: 500; }
 
       <div class="def-item">
         <dt>Quarterly business review (QBR)</dt>
-        <dd>A live quarterly deep-dive presentation covering SEO + AEO performance, insights, recommendations, and findings. Delivered by the Marketwake strategy team. $2,500 per quarter, or included with Rip Tide.</dd>
+        <dd>A live quarterly deep-dive presentation covering SEO + AEO performance, insights, recommendations, and findings. Delivered by the Marketwake strategy team. $3,500 per quarter, or included with Rip Tide.</dd>
       </div>
 
       <div class="def-item">
@@ -1552,43 +1553,43 @@ const PACKAGES = {
   current: {
     name: 'Current', tagline: 'Lay the foundation',
     price: 7500,  tier: 1, keywords: 100, ga4: 10,
-    includes: { briefs: 5, authored: 0, onpage: 5, upload: false }
+    includes: { briefs: 5, authored: 0, onpage: 5, upload: false, ga4Extra: 0, devhours: 0 }
   },
   hightide: {
     name: 'High Tide', tagline: 'Build visibility and authority',
-    price: 9000, tier: 2, keywords: 150, ga4: 10,
-    includes: { briefs: 10, authored: 0, onpage: 10, upload: false }
+    price: 13500, tier: 2, keywords: 150, ga4: 10,
+    includes: { briefs: 10, authored: 0, onpage: 10, upload: false, ga4Extra: 0, devhours: 0 }
   },
   riptide: {
     name: 'Rip Tide', tagline: 'Total search domination',
-    price: 11000, tier: 3, keywords: 200, ga4: 10,
-    includes: { briefs: 20, authored: 0, onpage: 15, upload: false }
+    price: 20000, tier: 3, keywords: 200, ga4: 20,
+    includes: { briefs: 20, authored: 0, onpage: 15, upload: false, ga4Extra: 10, devhours: 10 }
   },
 };
 
-// Per-unit prices at each 5-unit volume break
+// Per-unit prices at each 5-unit volume break (premium rates)
 const PRICE_BREAKS = {
-  briefs:   { 5: 175, 10: 160, 15: 145, 20: 130, 25: 115, 30: 100 },
-  authored: { 5: 600, 10: 560, 15: 520, 20: 480, 25: 440, 30: 400 },
-  onpage:   { 5: 225, 10: 205, 15: 185, 20: 170, 25: 155, 30: 140 },
+  briefs:   { 5: 600, 10: 550, 15: 500, 20: 450, 25: 425, 30: 400 },
+  authored: { 5: 900, 10: 825, 15: 750, 20: 700, 25: 650, 30: 625 },
+  onpage:   { 5: 750, 10: 700, 15: 625, 20: 575, 25: 550, 30: 525 },
 };
 
 // AEO reporting. Tier 1 is included free with every SEO client.
-// T2/T3/T4 are upcharges. If the selected package already includes a higher
-// tier, the delta is $0 (baked into the package price).
+// Higher tiers are upcharges. If the selected package already bundles a
+// higher tier, the delta is $0 (baked into the package price).
 const TIERS = {
   1: { name: 'Tier 1 · Signal',   price: 0,    prompts: 0,
        baseDesc: 'GA4 organic traffic + event completion + LLM source traffic. No Scrunch. Included with every SEO client.' },
-  2: { name: 'Tier 2 · Pulse',    price: 500,  prompts: 100,
+  2: { name: 'Tier 2 · Pulse',    price: 750,  prompts: 100,
        baseDesc: 'Tier 1 + 100 prompts / mo tracked in Scrunch across Claude, ChatGPT, Gemini, Perplexity. Monthly AEO findings report included.' },
-  3: { name: 'Tier 3 · Current',  price: 750,  prompts: 200,
+  3: { name: 'Tier 3 · Current',  price: 1100, prompts: 200,
        baseDesc: 'Tier 2 + 200 prompts. Share of voice, trend tracking, gap analysis. Monthly AEO findings report included.' },
-  4: { name: 'Tier 4 · Rip Tide', price: 1000, prompts: 300,
+  4: { name: 'Tier 4 · Rip Tide', price: 1600, prompts: 300,
        baseDesc: 'Tier 3 + 300 prompts. Citation source map, multi-model analysis, QBR-ready data. Monthly AEO findings report included.' },
 };
 
 const FLAT = {
-  qbr: { price: 2500, label: 'Quarterly business review',
+  qbr: { price: 3500, label: 'Quarterly business review',
          desc: 'Insights, recs, and findings delivered live by Marketwake' },
 };
 
@@ -1609,15 +1610,15 @@ function uploadBracketLabel(blogCount) {
   return '21 to 30 blogs';
 }
 
-// Dev hour buckets: volume discount on hourly rate
+// Dev hour buckets: premium rate with volume discount
 const DEV_HOURS = {
-  10: { rate: 175, total: 1750 },
-  20: { rate: 160, total: 3200 },
-  30: { rate: 150, total: 4500 },
+  10: { rate: 225, total: 2250 },
+  20: { rate: 200, total: 4000 },
+  30: { rate: 190, total: 5700 },
 };
 
-// Extra custom GA4 events (one-time configuration fee beyond the 10 baseline)
-const GA4_BREAKS = { 5: 150, 10: 130, 15: 115, 20: 105, 25: 100 };
+// Extra custom GA4 events (one-time configuration fee beyond the bundled baseline)
+const GA4_BREAKS = { 5: 200, 10: 180, 15: 165, 20: 150, 25: 140 };
 
 // Ordered package ranks for the "auto-upgrade" pricing logic.
 // If a user on Current slides content demands above High Tide's baseline,
@@ -1702,6 +1703,30 @@ function effectiveTotalFor(pkgKey) {
   // Upload + publish (not bundled in any current package)
   if (state.upload.on && !pkg.includes.upload) {
     total += uploadPrice(state.briefs.on ? state.briefs.value : 0);
+  }
+
+  // Dev hours: Rip Tide bundles 10 hours. Charge only for hours above that.
+  if (state.devhours.on) {
+    const bundled = pkg.includes.devhours || 0;
+    const requested = state.devhours.value;
+    if (requested > bundled) {
+      // Use the full bucket that covers requested hours
+      const bucket = DEV_HOURS[requested];
+      if (bucket) {
+        const extraHours = requested - bundled;
+        total += extraHours * bucket.rate;
+      }
+    }
+  }
+
+  // Additional GA4 events (one-time). Rip Tide bundles 10 extras.
+  if (state.ga4.on) {
+    const bundled = pkg.includes.ga4Extra || 0;
+    const chargedEvents = Math.max(0, state.ga4.value - bundled);
+    if (chargedEvents > 0) {
+      const step = Math.max(5, Math.floor(state.ga4.value / 5) * 5);
+      total += chargedEvents * (GA4_BREAKS[step] || GA4_BREAKS[5]);
+    }
   }
 
   // AEO tier delta above what the package bundles
@@ -1914,10 +1939,19 @@ function renderAddons() {
     $('[data-sliderval="ga4"]').textContent = state.ga4.value;
     const step = Math.max(5, Math.floor(state.ga4.value / 5) * 5);
     const up = GA4_BREAKS[step] || GA4_BREAKS[5];
-    const tot = up * state.ga4.value;
-    $('[data-output="ga4"]').innerHTML =
-      `<strong>${state.ga4.value} extra events</strong> · $${up} each · ${fmt(tot)} one-time`;
-    $('[data-price="ga4"]').textContent = state.ga4.on ? `${fmt(tot)} one-time` : '$0 one-time';
+    const bundledExtra = inc.ga4Extra || 0;
+    const charged = Math.max(0, state.ga4.value - bundledExtra);
+    const tot = charged * up;
+    let output;
+    if (bundledExtra > 0 && charged === 0) {
+      output = `<strong>${state.ga4.value} extra events</strong> · all ${bundledExtra} bundled with ${PACKAGES[state.pkg].name} · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (bundledExtra > 0) {
+      output = `<strong>${state.ga4.value} extra events</strong> · ${bundledExtra} bundled + ${charged} at $${up} each · ${fmt(tot)} one-time`;
+    } else {
+      output = `<strong>${state.ga4.value} extra events</strong> · $${up} each · ${fmt(tot)} one-time`;
+    }
+    $('[data-output="ga4"]').innerHTML = output;
+    $('[data-price="ga4"]').textContent = state.ga4.on ? (tot > 0 ? `${fmt(tot)} one-time` : 'Included · $0') : '$0 one-time';
   }
 
   // ---------- DEV HOURS ----------
@@ -1932,9 +1966,20 @@ function renderAddons() {
     slider.value = state.devhours.value;
     $('[data-sliderval="devhours"]').textContent = state.devhours.value;
     const d = DEV_HOURS[state.devhours.value];
-    $('[data-output="devhours"]').innerHTML =
-      `<strong>${state.devhours.value} hours / mo</strong> · $${d.rate} / hour · ${fmt(d.total)} / mo`;
-    $('[data-price="devhours"]').textContent = state.devhours.on ? `${fmt(d.total)} / mo` : '$0 / mo';
+    const bundledHours = inc.devhours || 0;
+    const extraHours = Math.max(0, state.devhours.value - bundledHours);
+    const extraCost = extraHours * d.rate;
+    let output;
+    if (bundledHours > 0 && extraHours === 0) {
+      output = `<strong>${state.devhours.value} hours / mo</strong> · all ${bundledHours} bundled with ${PACKAGES[state.pkg].name} · <strong style="color:var(--yellow)">$0 upsell</strong>`;
+    } else if (bundledHours > 0) {
+      output = `<strong>${state.devhours.value} hours / mo</strong> · ${bundledHours} bundled + ${extraHours} at $${d.rate} / hour · ${fmt(extraCost)} / mo`;
+    } else {
+      output = `<strong>${state.devhours.value} hours / mo</strong> · $${d.rate} / hour · ${fmt(d.total)} / mo`;
+    }
+    $('[data-output="devhours"]').innerHTML = output;
+    const displayCost = bundledHours > 0 ? extraCost : d.total;
+    $('[data-price="devhours"]').textContent = state.devhours.on ? (displayCost > 0 ? `${fmt(displayCost)} / mo` : 'Included · $0') : '$0 / mo';
   }
 
   // ---------- AEO REPORTING ----------
@@ -2070,26 +2115,35 @@ function buildLineItems() {
 
   if (state.devhours.on) {
     const d = DEV_HOURS[state.devhours.value];
-    items.push({
-      kind: 'monthly',
-      label: `Dev hours × ${state.devhours.value} / mo`,
-      sub: `Technical SEO fixes · $${d.rate} / hour`,
-      amount: d.total
-    });
-    monthly += d.total;
+    const bundled = inc.devhours || 0;
+    const extra = Math.max(0, state.devhours.value - bundled);
+    if (extra > 0) {
+      const cost = extra * d.rate;
+      items.push({
+        kind: 'monthly',
+        label: `Dev hours × ${extra} extra / mo`,
+        sub: `${state.devhours.value} total (${bundled} bundled) · $${d.rate} / hour`,
+        amount: cost
+      });
+      monthly += cost;
+    }
   }
 
   if (state.ga4.on) {
     const step = Math.max(5, Math.floor(state.ga4.value / 5) * 5);
     const up = GA4_BREAKS[step] || GA4_BREAKS[5];
-    const tot = up * state.ga4.value;
-    items.push({
-      kind: 'once',
-      label: `Additional GA4 events × ${state.ga4.value}`,
-      sub: `On top of the 10 included · $${up} each`,
-      amount: tot
-    });
-    oneTime += tot;
+    const bundled = inc.ga4Extra || 0;
+    const charged = Math.max(0, state.ga4.value - bundled);
+    if (charged > 0) {
+      const tot = charged * up;
+      items.push({
+        kind: 'once',
+        label: `Additional GA4 events × ${charged}`,
+        sub: `${state.ga4.value} total (${bundled} bundled + ${charged} above baseline 10) · $${up} each`,
+        amount: tot
+      });
+      oneTime += tot;
+    }
   }
 
   // AEO reporting: only charge the delta above what the package bundles.
@@ -2205,6 +2259,16 @@ $$('.pkg-card').forEach(card => {
     // On-page
     state.onpage.on = true;
     state.onpage.value = Math.max(5, inc.onpage);
+    // Dev hours (Rip Tide bundles 10)
+    if (inc.devhours > 0) {
+      state.devhours.on = true;
+      state.devhours.value = inc.devhours;
+    }
+    // Extra GA4 events (Rip Tide bundles 10)
+    if (inc.ga4Extra > 0) {
+      state.ga4.on = true;
+      state.ga4.value = inc.ga4Extra;
+    }
     // Upload
     state.upload.on = inc.upload;
     render();
