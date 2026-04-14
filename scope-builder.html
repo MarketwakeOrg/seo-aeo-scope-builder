@@ -1085,7 +1085,7 @@ strong, b { font-weight: 500; }
             <li><strong>AEO Tier 2 · Pulse</strong> reporting bundled (100 prompts)</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
           </ul>
-          <div class="price">$14,000<span>/mo</span></div>
+          <div class="price">$9,000<span>/mo</span></div>
         </div>
 
         <!-- RIP TIDE -->
@@ -1109,7 +1109,7 @@ strong, b { font-weight: 500; }
             <li>Monthly Looker Studio dashboard + exec summary</li>
             <li><em>Authored blogs + upload/publish available as upsells</em></li>
           </ul>
-          <div class="price">$20,000<span>/mo</span></div>
+          <div class="price">$11,000<span>/mo</span></div>
         </div>
       </div>
     </section>
@@ -1166,7 +1166,7 @@ strong, b { font-weight: 500; }
               <div class="addon-dot"></div>
               <div>
                 <div class="addon-label">Authored blogs (Marketwake writes)</div>
-                <div class="addon-desc">Marketwake researches, writes, and delivers. All posts 800 to 2,000 words. Every 5 blogs includes 1 long-form piece (2,000 to 4,000 words) replacing one standard post.</div>
+                <div class="addon-desc">Marketwake researches, writes, and delivers. All posts 800 to 2,000 words. Every 5 blogs includes 1 long-form piece (2,000 to 4,000 words) replacing one standard post. Every authored blog ships with its own brief, so briefs auto-match the authored count - we never deliver fewer briefs than articles we write.</div>
               </div>
             </div>
             <div class="addon-right">
@@ -1201,7 +1201,7 @@ strong, b { font-weight: 500; }
               <div class="addon-dot"></div>
               <div>
                 <div class="addon-label">Blog upload + publish</div>
-                <div class="addon-desc">CMS upload, formatting, metadata, internal linking. Client just approves.</div>
+                <div class="addon-desc">CMS upload, formatting, metadata, internal linking. Client just approves. Priced by total blog output: $600 for 1-10 blogs, $1,100 for 11-20, $1,600 for 21-30.</div>
               </div>
             </div>
             <div class="addon-right">
@@ -1461,7 +1461,7 @@ strong, b { font-weight: 500; }
 
       <div class="def-item">
         <dt>Blog upload + publish</dt>
-        <dd>Marketwake handles the full publish workflow in the client's CMS: formatting, metadata, internal linking, image optimization, and scheduling. Client only needs to approve.</dd>
+        <dd>Marketwake handles the full publish workflow in the client's CMS: formatting, metadata, internal linking, image optimization, and scheduling. Client only needs to approve. Priced by total blog output per month: $600 for 1 to 10 blogs, $1,100 for 11 to 20 blogs, $1,600 for 21 to 30 blogs.</dd>
       </div>
 
       <div class="def-item">
@@ -1556,12 +1556,12 @@ const PACKAGES = {
   },
   hightide: {
     name: 'High Tide', tagline: 'Build visibility and authority',
-    price: 14000, tier: 2, keywords: 150, ga4: 10,
+    price: 9000, tier: 2, keywords: 150, ga4: 10,
     includes: { briefs: 10, authored: 0, onpage: 10, upload: false }
   },
   riptide: {
     name: 'Rip Tide', tagline: 'Total search domination',
-    price: 20000, tier: 3, keywords: 200, ga4: 10,
+    price: 11000, tier: 3, keywords: 200, ga4: 10,
     includes: { briefs: 20, authored: 0, onpage: 15, upload: false }
   },
 };
@@ -1588,10 +1588,26 @@ const TIERS = {
 };
 
 const FLAT = {
-  upload: { price: 600,  label: 'Blog upload + publish' },
-  qbr:    { price: 2500, label: 'Quarterly business review',
-            desc: 'Insights, recs, and findings delivered live by Marketwake' },
+  qbr: { price: 2500, label: 'Quarterly business review',
+         desc: 'Insights, recs, and findings delivered live by Marketwake' },
 };
+
+// Blog upload + publish: priced by volume of blogs being uploaded per month.
+// Driven by the briefs slider (total blog output). Brackets:
+//   1-10 blogs:  $600 / mo
+//   11-20 blogs: $1,100 / mo
+//   21-30 blogs: $1,600 / mo
+function uploadPrice(blogCount) {
+  if (blogCount <= 0)  return 0;
+  if (blogCount <= 10) return 600;
+  if (blogCount <= 20) return 1100;
+  return 1600;
+}
+function uploadBracketLabel(blogCount) {
+  if (blogCount <= 10) return '1 to 10 blogs';
+  if (blogCount <= 20) return '11 to 20 blogs';
+  return '21 to 30 blogs';
+}
 
 // Dev hour buckets: volume discount on hourly rate
 const DEV_HOURS = {
@@ -1647,40 +1663,93 @@ function authoredBreakdown(qty) {
   return { longform, standard };
 }
 
-// Returns the minimum package key that can satisfy the user's current
-// content demands. Prevents the "Current + add-ons < High Tide" scenario:
-// if you ask for more briefs or on-page opts than a package bundles, the
-// scope auto-upgrades to the package that actually covers it.
-function minPackageNeeded() {
-  const b = state.briefs.on ? state.briefs.value : 0;
-  const o = state.onpage.on ? state.onpage.value : 0;
-  if (b > PACKAGES.hightide.includes.briefs || o > PACKAGES.hightide.includes.onpage) return 'riptide';
-  if (b > PACKAGES.current.includes.briefs  || o > PACKAGES.current.includes.onpage)  return 'hightide';
-  return 'current';
+// Compute the monthly total for a given package key, given the current
+// slider state. Used by the cost-aware auto-upgrade logic so we can pick
+// the cheapest package that satisfies the user's demands.
+function effectiveTotalFor(pkgKey) {
+  const pkg = PACKAGES[pkgKey];
+  let total = pkg.price;
+
+  // Briefs: authored blogs always cover briefs 1:1
+  const authoredCovered = state.authored.on ? state.authored.value : 0;
+  const briefsEffectiveInc = pkg.includes.briefs + authoredCovered;
+  if (state.briefs.on) {
+    const extra = Math.max(0, state.briefs.value - briefsEffectiveInc);
+    if (extra > 0) {
+      const step = Math.max(5, Math.floor(state.briefs.value / 5) * 5);
+      total += extra * (PRICE_BREAKS.briefs[step] || PRICE_BREAKS.briefs[5]);
+    }
+  }
+
+  // Authored blogs (independent, always above pkg.includes.authored = 0)
+  if (state.authored.on) {
+    const extra = Math.max(0, state.authored.value - pkg.includes.authored);
+    if (extra > 0) {
+      const step = Math.max(5, Math.floor(state.authored.value / 5) * 5);
+      total += extra * (PRICE_BREAKS.authored[step] || PRICE_BREAKS.authored[5]);
+    }
+  }
+
+  // On-page extras
+  if (state.onpage.on) {
+    const extra = Math.max(0, state.onpage.value - pkg.includes.onpage);
+    if (extra > 0) {
+      const step = Math.max(5, Math.floor(state.onpage.value / 5) * 5);
+      total += extra * (PRICE_BREAKS.onpage[step] || PRICE_BREAKS.onpage[5]);
+    }
+  }
+
+  // Upload + publish (not bundled in any current package)
+  if (state.upload.on && !pkg.includes.upload) {
+    total += uploadPrice(state.briefs.on ? state.briefs.value : 0);
+  }
+
+  // AEO tier delta above what the package bundles
+  const selTier = TIERS[state.tier];
+  const incTier = TIERS[pkg.tier];
+  total += Math.max(0, selTier.price - incTier.price);
+
+  return total;
 }
 
-// Compute the effective package: either what the user clicked, or the
-// minimum package their content demands, whichever is higher. Reversible:
-// if the user slides back down, the effective package drops back to their
-// chosen one.
+// Cost-aware effective package: starts from what the user clicked and
+// auto-upgrades to the next package if it's cheaper for the current demands.
+// Packages are priced with small discounts so this fires once the user's
+// content volume hits each next tier's bundled baseline.
 function computeEffectivePkg() {
   if (!state.pkgChosen) return null;
-  const needed = minPackageNeeded();
-  const chosenRank = PKG_RANK.indexOf(state.pkgChosen);
-  const neededRank = PKG_RANK.indexOf(needed);
-  return neededRank > chosenRank ? needed : state.pkgChosen;
+  const chosenIdx = PKG_RANK.indexOf(state.pkgChosen);
+  let best = state.pkgChosen;
+  let bestCost = effectiveTotalFor(state.pkgChosen);
+  for (let i = chosenIdx + 1; i < PKG_RANK.length; i++) {
+    const candidate = PKG_RANK[i];
+    const cost = effectiveTotalFor(candidate);
+    // <= means ties go to the higher package (user gets more value)
+    if (cost <= bestCost) {
+      bestCost = cost;
+      best = candidate;
+    }
+  }
+  return best;
 }
 
 /* ============ RENDER ============ */
 function render() {
+  // Briefs and authored blogs work hand-in-hand: we never deliver fewer briefs
+  // than we author. If authored slides up, briefs follow to match.
+  if (state.authored.on && state.authored.value > 0) {
+    if (state.briefs.value < state.authored.value) {
+      state.briefs.value = state.authored.value;
+      state.briefs.on = true;
+    }
+  }
+
   state.pkg = computeEffectivePkg();
-  // Enforce slider baselines for the effective package
   if (state.pkg) {
     const p = PACKAGES[state.pkg];
     if (state.briefs.value < p.includes.briefs) state.briefs.value = p.includes.briefs;
     if (state.onpage.value < p.includes.onpage) state.onpage.value = p.includes.onpage;
-    // Re-sync auto-selected tier to the effective package's bundled tier
-    // (unless the user has actively upgraded to something higher)
+    // Re-sync tier to at least the effective package's bundled tier
     const effectiveTierMin = p.tier;
     if (state.tier < effectiveTierMin) state.tier = effectiveTierMin;
   }
@@ -1791,15 +1860,22 @@ function renderAddons() {
   }
 
   // ---------- UPLOAD + PUBLISH ----------
+  // Volume-priced by the current briefs slider (total blog output):
+  // $600 for 1-10, $1,100 for 11-20, $1,600 for 21-30.
   const upEl = $('.addon[data-addon="upload"]');
   const uploadIncluded = inc.upload;
   upEl.classList.toggle('active', state.upload.on || uploadIncluded);
   $('[data-toggle="upload"]').classList.toggle('on', state.upload.on || uploadIncluded);
-  // Update upload price label
   {
     const priceEl = upEl.querySelector('.addon-price');
-    if (uploadIncluded) priceEl.textContent = 'Included · $0';
-    else priceEl.textContent = `${fmt(FLAT.upload.price)} / mo`;
+    if (uploadIncluded) {
+      priceEl.textContent = 'Included · $0';
+    } else {
+      const blogs = state.briefs.on ? state.briefs.value : 10;
+      const cost = uploadPrice(blogs);
+      const bracket = uploadBracketLabel(blogs);
+      priceEl.innerHTML = `${fmt(cost)} / mo<br><span style="font-size:10px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">${bracket}</span>`;
+    }
   }
 
   // ---------- ON-PAGE / PRODUCT-PAGE ----------
@@ -1965,10 +2041,18 @@ function buildLineItems() {
     }
   }
 
-  // Upload: add a charge only if not already included in package
+  // Upload + publish: volume-priced by total blog output (briefs slider)
   if (state.upload.on && !inc.upload) {
-    items.push({ kind: 'monthly', label: FLAT.upload.label, amount: FLAT.upload.price });
-    monthly += FLAT.upload.price;
+    const blogs = state.briefs.on ? state.briefs.value : 10;
+    const cost = uploadPrice(blogs);
+    const bracket = uploadBracketLabel(blogs);
+    items.push({
+      kind: 'monthly',
+      label: 'Blog upload + publish',
+      sub: `${blogs} blogs / mo · ${bracket} bracket`,
+      amount: cost
+    });
+    monthly += cost;
   }
 
   if (state.onpage.on) {
@@ -2152,6 +2236,16 @@ $$('input[type="range"][data-slider]').forEach(slider => {
     slider.value = val;
     state[key].value = val;
     if (!state[key].on) state[key].on = true;
+
+    // Briefs-authored link: sliding authored up drags briefs with it.
+    // Sliding briefs below authored clamps briefs back up to authored.
+    if (key === 'authored' && state.briefs.value < val) {
+      state.briefs.value = val;
+      state.briefs.on = true;
+    }
+    if (key === 'briefs' && state.authored.on && val < state.authored.value) {
+      state.briefs.value = state.authored.value;
+    }
     render();
   });
 });
