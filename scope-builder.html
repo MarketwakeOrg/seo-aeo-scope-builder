@@ -830,6 +830,29 @@ strong, b { font-weight: 500; }
   font-size: 14px;
   margin-bottom: 24px;
 }
+.auto-upgrade {
+  background: rgba(238,255,37,0.08);
+  border: 1px solid rgba(238,255,37,0.45);
+  border-left: 3px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin: -8px 0 22px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--off-white);
+}
+.auto-upgrade strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--yellow);
+  margin-bottom: 4px;
+}
 .summary-list { list-style: none; margin: 0 0 20px; }
 .summary-list li {
   display: flex;
@@ -1357,6 +1380,10 @@ strong, b { font-weight: 500; }
         <h3 id="sumPkgName">No package selected</h3>
         <div class="pkg-tagline" id="sumPkgTag">Pick a foundation to begin.</div>
       </div>
+      <div class="auto-upgrade" id="autoUpgrade" style="display:none;">
+        <strong>Scope auto-upgraded.</strong>
+        <span id="autoUpgradeMsg"></span>
+      </div>
       <ul class="summary-list" id="sumList">
         <li class="summary-empty">Your configured items will appear here.</li>
       </ul>
@@ -1592,7 +1619,8 @@ function yextUnitPrice(locs) {
 
 /* ============ STATE ============ */
 const state = {
-  pkg: null,
+  pkg: null,        // effective package after auto-upgrade logic
+  pkgChosen: null,  // what the user actually clicked
   briefs:   { on: false, value: 5 },
   authored: { on: false, value: 5, repurpose: false },
   upload:   { on: false },
@@ -1620,28 +1648,41 @@ function authoredBreakdown(qty) {
 }
 
 // Returns the minimum package key that can satisfy the user's current
-// content demands. Keeps scope pricing honest: if a client on Current
-// slides briefs/on-page above what High Tide includes, we auto-upgrade.
+// content demands. Prevents the "Current + add-ons < High Tide" scenario:
+// if you ask for more briefs or on-page opts than a package bundles, the
+// scope auto-upgrades to the package that actually covers it.
 function minPackageNeeded() {
   const b = state.briefs.on ? state.briefs.value : 0;
   const o = state.onpage.on ? state.onpage.value : 0;
   if (b > PACKAGES.hightide.includes.briefs || o > PACKAGES.hightide.includes.onpage) return 'riptide';
-  if (b > PACKAGES.current.includes.briefs   || o > PACKAGES.current.includes.onpage)   return 'hightide';
+  if (b > PACKAGES.current.includes.briefs  || o > PACKAGES.current.includes.onpage)  return 'hightide';
   return 'current';
+}
+
+// Compute the effective package: either what the user clicked, or the
+// minimum package their content demands, whichever is higher. Reversible:
+// if the user slides back down, the effective package drops back to their
+// chosen one.
+function computeEffectivePkg() {
+  if (!state.pkgChosen) return null;
+  const needed = minPackageNeeded();
+  const chosenRank = PKG_RANK.indexOf(state.pkgChosen);
+  const neededRank = PKG_RANK.indexOf(needed);
+  return neededRank > chosenRank ? needed : state.pkgChosen;
 }
 
 /* ============ RENDER ============ */
 function render() {
-  // Auto-upgrade selected package if content demands exceed it.
+  state.pkg = computeEffectivePkg();
+  // Enforce slider baselines for the effective package
   if (state.pkg) {
-    const needed = minPackageNeeded();
-    if (PKG_RANK.indexOf(needed) > PKG_RANK.indexOf(state.pkg)) {
-      state.pkg = needed;
-      // Also enforce new package's baselines on the sliders
-      const p = PACKAGES[state.pkg];
-      if (state.briefs.value < p.includes.briefs) state.briefs.value = p.includes.briefs;
-      if (state.onpage.value < p.includes.onpage) state.onpage.value = p.includes.onpage;
-    }
+    const p = PACKAGES[state.pkg];
+    if (state.briefs.value < p.includes.briefs) state.briefs.value = p.includes.briefs;
+    if (state.onpage.value < p.includes.onpage) state.onpage.value = p.includes.onpage;
+    // Re-sync auto-selected tier to the effective package's bundled tier
+    // (unless the user has actively upgraded to something higher)
+    const effectiveTierMin = p.tier;
+    if (state.tier < effectiveTierMin) state.tier = effectiveTierMin;
   }
   renderPackageCards();
   renderAddons();
@@ -2015,6 +2056,18 @@ function renderSummary() {
     $('#sumPkgTag').textContent = 'Pick a foundation to begin.';
   }
 
+  // Auto-upgrade banner
+  const banner = $('#autoUpgrade');
+  if (state.pkgChosen && state.pkg && state.pkg !== state.pkgChosen) {
+    const chosen = PACKAGES[state.pkgChosen].name;
+    const effective = PACKAGES[state.pkg].name;
+    $('#autoUpgradeMsg').textContent =
+      `You picked ${chosen}, but your content volume (briefs or on-page opts) exceeds what ${chosen} bundles. Scope upgraded to ${effective} to match — this keeps pricing aligned with what Marketwake is actually delivering.`;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+
   const listEl = $('#sumList');
   if (items.length === 0) {
     listEl.innerHTML = '<li class="summary-empty">Your configured items will appear here.</li>';
@@ -2050,8 +2103,8 @@ function renderSummary() {
 // Package selection: pre-fill sliders and toggles to what the package already includes
 $$('.pkg-card').forEach(card => {
   card.addEventListener('click', () => {
-    state.pkg = card.dataset.pkg;
-    const p = PACKAGES[state.pkg];
+    state.pkgChosen = card.dataset.pkg;
+    const p = PACKAGES[state.pkgChosen];
     state.tier = p.tier;
 
     const inc = p.includes;
