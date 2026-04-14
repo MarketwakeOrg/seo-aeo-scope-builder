@@ -1053,13 +1053,12 @@ strong, b { font-weight: 500; }
             <li>SEO audit</li>
             <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>AEO prompt list</li>
-            <li>20 custom GA4 events</li>
-            <li>15 blog briefs / mo (SEO + AEO optimized, client writes)</li>
-            <li>15 on-page / product-page optimizations / mo</li>
+            <li>10 custom GA4 events</li>
+            <li>10 blog briefs / mo (SEO + AEO optimized, client writes)</li>
+            <li>10 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
-            <li><em>Authored blogs available as an upsell</em></li>
           </ul>
           <div class="price">$14,000<span>/mo</span></div>
         </div>
@@ -1068,22 +1067,21 @@ strong, b { font-weight: 500; }
         <div class="pkg-card" data-pkg="riptide">
           <div class="icon-wrap"><img src="assets/images/Secondary%20Icon%20White.png" alt="" /></div>
           <h3>Rip Tide</h3>
-          <div class="tagline">Total search domination. The only package where Marketwake authors the articles.</div>
+          <div class="tagline">Total search domination</div>
           <ul>
             <li class="pill-row"><span class="kw-pill">200 keyword hitlist</span></li>
             <li>SEO audit</li>
             <li>Technical SEO analysis report + Lumar dashboard access</li>
             <li>AEO prompt list</li>
-            <li>20 custom GA4 events</li>
-            <li>20 blog briefs / mo</li>
-            <li><strong>10 authored blogs / mo (Marketwake writes)</strong></li>
-            <li>Blog upload + publish included</li>
-            <li>20 on-page / product-page optimizations / mo</li>
+            <li>10 custom GA4 events</li>
+            <li>20 blog briefs / mo (SEO + AEO optimized, client writes)</li>
+            <li>15 on-page / product-page optimizations / mo</li>
             <li>3-month SEO + AEO content strategy</li>
             <li>Quarterly content strategy refresh</li>
             <li>QBR delivered quarterly</li>
             <li>Dedicated Marketwake strategist</li>
             <li>Monthly Looker Studio dashboard + exec summary</li>
+            <li><em>Authored blogs + upload/publish available as upsells</em></li>
           </ul>
           <div class="price">$20,000<span>/mo</span></div>
         </div>
@@ -1183,6 +1181,32 @@ strong, b { font-weight: 500; }
             <div class="addon-right">
               <div class="addon-price">$600 / mo</div>
               <div class="toggle" data-toggle="upload"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADDON: EXTRA GA4 EVENTS -->
+        <div class="addon" data-addon="ga4">
+          <div class="addon-head">
+            <div class="addon-title">
+              <div class="addon-dot"></div>
+              <div>
+                <div class="addon-label">Additional custom GA4 events</div>
+                <div class="addon-desc">Every package includes 10 custom GA4 events. Add more to track additional conversions, micro-conversions, or funnel steps. Priced as one-time configuration.</div>
+              </div>
+            </div>
+            <div class="addon-right">
+              <div class="addon-price" data-price="ga4">$0 one-time</div>
+              <div class="toggle" data-toggle="ga4"></div>
+            </div>
+          </div>
+          <div class="addon-body">
+            <div class="slider-row">
+              <input type="range" min="5" max="25" step="5" value="5" data-slider="ga4" />
+              <div class="slider-val" data-sliderval="ga4">5</div>
+            </div>
+            <div class="slider-output" data-output="ga4">
+              <strong>5 extra events</strong> · $150 each · $750 one-time
             </div>
           </div>
         </div>
@@ -1396,8 +1420,8 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>Authored blogs (Marketwake writes)<span class="tag">Rip Tide only</span></dt>
-        <dd>Fully researched, written, and edited blog posts delivered ready to publish. Same 4 standard + 1 long-form cadence per 5 posts. Authoring is never included in Current or High Tide - it's always an upsell.</dd>
+        <dt>Authored blogs (Marketwake writes)<span class="tag">Always an add-on</span></dt>
+        <dd>Fully researched, written, and edited blog posts delivered ready to publish. Same 4 standard + 1 long-form cadence per 5 posts. Authoring is never included in any package - it is always an upsell add-on.</dd>
       </div>
 
       <div class="def-item">
@@ -1411,8 +1435,8 @@ strong, b { font-weight: 500; }
       </div>
 
       <div class="def-item">
-        <dt>Custom GA4 events</dt>
-        <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. 10 events for Current, 20 for High Tide and Rip Tide.</dd>
+        <dt>Custom GA4 events<span class="tag">10 included in all packages</span></dt>
+        <dd>Configuration of event tracking in Google Analytics 4 for the conversions and micro-conversions that actually matter to the client's business. Every package includes 10 custom events. Need more? Add them as a one-time configuration fee with volume breaks starting at $150 / event.</dd>
       </div>
 
       <div class="def-item">
@@ -1492,21 +1516,23 @@ strong, b { font-weight: 500; }
 /* ============ DATA ============ */
 // Package "includes" = quantities bundled into the monthly package price.
 // Add-on sliders charge only for quantities ABOVE the included amount.
+// All packages include 10 custom GA4 events baseline. Additional events are
+// an add-on. No package includes authored blogs - that's always an upsell.
 const PACKAGES = {
   current: {
     name: 'Current', tagline: 'Lay the foundation',
-    price: 7500,  tier: 1, keywords: 100,
+    price: 7500,  tier: 1, keywords: 100, ga4: 10,
     includes: { briefs: 5, authored: 0, onpage: 5, upload: false }
   },
   hightide: {
     name: 'High Tide', tagline: 'Build visibility and authority',
-    price: 14000, tier: 1, keywords: 150,
-    includes: { briefs: 15, authored: 0, onpage: 15, upload: false }
+    price: 14000, tier: 1, keywords: 150, ga4: 10,
+    includes: { briefs: 10, authored: 0, onpage: 10, upload: false }
   },
   riptide: {
-    name: 'Rip Tide', tagline: 'Total search domination. Marketwake authors every article.',
-    price: 20000, tier: 1, keywords: 200,
-    includes: { briefs: 20, authored: 10, onpage: 20, upload: true }
+    name: 'Rip Tide', tagline: 'Total search domination',
+    price: 20000, tier: 1, keywords: 200, ga4: 10,
+    includes: { briefs: 20, authored: 0, onpage: 15, upload: false }
   },
 };
 
@@ -1544,6 +1570,14 @@ const DEV_HOURS = {
   30: { rate: 150, total: 4500 },
 };
 
+// Extra custom GA4 events (one-time configuration fee beyond the 10 baseline)
+const GA4_BREAKS = { 5: 150, 10: 130, 15: 115, 20: 105, 25: 100 };
+
+// Ordered package ranks for the "auto-upgrade" pricing logic.
+// If a user on Current slides content demands above High Tide's baseline,
+// the scope auto-bumps to the appropriate package to keep pricing honest.
+const PKG_RANK = ['current', 'hightide', 'riptide'];
+
 // Yext: base $185/location, $5 off every 10 locations, floor at $100, max 200 locations.
 const YEXT_BASE = 185;
 const YEXT_FLOOR = 100;
@@ -1561,6 +1595,7 @@ const state = {
   upload:   { on: false },
   onpage:   { on: false, value: 5 },
   devhours: { on: false, value: 10 },
+  ga4:      { on: false, value: 5 },
   tier:     1,
   yext:     { on: false, locations: 1 },
   qbr:      { on: false },
@@ -1581,8 +1616,30 @@ function authoredBreakdown(qty) {
   return { longform, standard };
 }
 
+// Returns the minimum package key that can satisfy the user's current
+// content demands. Keeps scope pricing honest: if a client on Current
+// slides briefs/on-page above what High Tide includes, we auto-upgrade.
+function minPackageNeeded() {
+  const b = state.briefs.on ? state.briefs.value : 0;
+  const o = state.onpage.on ? state.onpage.value : 0;
+  if (b > PACKAGES.hightide.includes.briefs || o > PACKAGES.hightide.includes.onpage) return 'riptide';
+  if (b > PACKAGES.current.includes.briefs   || o > PACKAGES.current.includes.onpage)   return 'hightide';
+  return 'current';
+}
+
 /* ============ RENDER ============ */
 function render() {
+  // Auto-upgrade selected package if content demands exceed it.
+  if (state.pkg) {
+    const needed = minPackageNeeded();
+    if (PKG_RANK.indexOf(needed) > PKG_RANK.indexOf(state.pkg)) {
+      state.pkg = needed;
+      // Also enforce new package's baselines on the sliders
+      const p = PACKAGES[state.pkg];
+      if (state.briefs.value < p.includes.briefs) state.briefs.value = p.includes.briefs;
+      if (state.onpage.value < p.includes.onpage) state.onpage.value = p.includes.onpage;
+    }
+  }
   renderPackageCards();
   renderAddons();
   renderSummary();
@@ -1726,6 +1783,23 @@ function renderAddons() {
     $('[data-price="onpage"]').textContent = state.onpage.on ? (r.cost > 0 ? `${fmt(r.cost)} / mo` : 'Included · $0') : '$0 / mo';
   }
 
+  // ---------- EXTRA GA4 EVENTS ----------
+  const ga4El = $('.addon[data-addon="ga4"]');
+  ga4El.classList.toggle('active', state.ga4.on);
+  ga4El.classList.toggle('open', state.ga4.on);
+  $('[data-toggle="ga4"]').classList.toggle('on', state.ga4.on);
+  {
+    const slider = $('[data-slider="ga4"]');
+    slider.value = state.ga4.value;
+    $('[data-sliderval="ga4"]').textContent = state.ga4.value;
+    const step = Math.max(5, Math.floor(state.ga4.value / 5) * 5);
+    const up = GA4_BREAKS[step] || GA4_BREAKS[5];
+    const tot = up * state.ga4.value;
+    $('[data-output="ga4"]').innerHTML =
+      `<strong>${state.ga4.value} extra events</strong> · $${up} each · ${fmt(tot)} one-time`;
+    $('[data-price="ga4"]').textContent = state.ga4.on ? `${fmt(tot)} one-time` : '$0 one-time';
+  }
+
   // ---------- DEV HOURS ----------
   const devEl = $('.addon[data-addon="devhours"]');
   devEl.classList.toggle('active', state.devhours.on);
@@ -1866,6 +1940,19 @@ function buildLineItems() {
       amount: d.total
     });
     monthly += d.total;
+  }
+
+  if (state.ga4.on) {
+    const step = Math.max(5, Math.floor(state.ga4.value / 5) * 5);
+    const up = GA4_BREAKS[step] || GA4_BREAKS[5];
+    const tot = up * state.ga4.value;
+    items.push({
+      kind: 'once',
+      label: `Additional GA4 events × ${state.ga4.value}`,
+      sub: `On top of the 10 included · $${up} each`,
+      amount: tot
+    });
+    oneTime += tot;
   }
 
   // AEO reporting: Tier 1 is free for all clients, Tier 2/3/4 charge flat.
